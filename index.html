@@ -3,197 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ye Xia | Academic Portfolio</title>
+    <title>Ye Xia | Academic Profile</title>
     <style>
+        /* Base and Typography */
         :root {
+            --primary-color: #2c3e50;
+            --link-color: #3b82f6;
             --bg-color: #ffffff;
-            --text-color: #1a1a1a;
-            --accent-color: #000000;
-            --secondary-text: #666666;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
-        
-        body {
-            font-family: var(--font-family);
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            -webkit-font-smoothing: antialiased;
+            --nav-bg: #f8f9fa;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-serif: Georgia, "Times New Roman", Times, serif;
         }
 
-        .container {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-serif);
+            color: var(--text-main);
+            line-height: 1.7;
+            background-color: var(--bg-color);
+        }
+
+        h1, h2, h3, .nav-links a, .logo {
+            font-family: var(--font-sans);
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: var(--nav-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            position: relative;
+            z-index: 100; /* Ensure nav is above other content */
         }
 
         .logo {
-            font-family: monospace;
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: -0.5px;
-            margin-bottom: 3rem;
-            color: var(--accent-color);
-        }
-
-        h1 {
-            font-size: 2.8rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            margin-bottom: 0.2rem;
-            letter-spacing: -0.02em;
+            color: var(--primary-color);
         }
 
-        h2 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-top: 3.5rem;
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid #eaeaea;
-            padding-bottom: 0.5rem;
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #555;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--secondary-text);
-            margin-bottom: 2.5rem;
+        .nav-links a:hover {
+            color: var(--primary-color);
         }
 
-        p {
-            margin-bottom: 1.2rem;
-            font-size: 1.05rem;
+        /* Hamburger Menu Button (Hidden on Desktop) */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: transparent;
         }
 
-        a {
-            color: var(--accent-color);
-            text-decoration: underline;
-            text-decoration-thickness: 1px;
-            text-underline-offset: 4px;
+        .menu-toggle .bar {
+            width: 22px;
+            height: 2px;
+            background-color: #555;
+            transition: all 0.3s ease;
         }
 
-        a:hover {
-            color: var(--secondary-text);
+        /* Responsive Design for Mobile (Screens smaller than 768px) */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex; /* Show hamburger button */
+            }
+
+            .nav-links {
+                display: none; /* Hide links by default on mobile */
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--nav-bg);
+                padding: 0;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                border-top: 1px solid #eee;
+            }
+
+            /* This class is added by JavaScript when the button is clicked */
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 1rem 5%;
+                border-bottom: 1px solid #eee;
+                display: block;
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
         }
 
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        li {
-            margin-bottom: 1.2rem;
+        /* Hero Banner & Profile Picture */
+        .hero-container {
             position: relative;
-            padding-left: 1.5rem;
+            width: 100%;
+            height: 350px;
+            background-color: #ddd;
+            /* REPLACE THE URL BELOW WITH A LINK TO YOUR BANNER IMAGE */
+            background-image: url('https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=2000&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-caption {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-family: var(--font-sans);
+        }
+
+        .profile-wrapper {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            object-fit: cover;
+            /* REPLACE THE URL BELOW WITH A LINK TO YOUR HEADSHOT */
+            background-color: #eee;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Main Content Layout */
+        .content {
+            max-width: 800px;
+            margin: 80px auto 40px auto;
+            padding: 0 20px;
+        }
+
+        .announcement {
+            background-color: #f1f8ff;
+            border-left: 4px solid #0366d6;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 2rem;
             font-size: 1.05rem;
         }
 
-        li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: var(--secondary-text);
+        h2 {
+            font-size: 1.7rem;
+            color: var(--primary-color);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
         }
 
-        /* Styling for the News section dates */
-        .date-tag {
-            font-family: monospace;
-            font-size: 0.9rem;
-            color: var(--secondary-text);
-            margin-right: 10px;
+        .news-list {
+            list-style: none;
+            padding: 0;
         }
 
-        /* Tag styling for skills */
-        .skill-tag {
-            display: inline-block;
-            border: 1px solid #eaeaea;
-            padding: 2px 8px;
-            font-size: 0.85rem;
-            margin-right: 5px;
-            margin-bottom: 5px;
-            border-radius: 3px;
+        .news-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            text-indent: -1.5rem;
         }
 
-        footer {
-            margin-top: 5rem;
-            padding-top: 2rem;
-            border-top: 1px solid #eaeaea;
-            font-size: 0.9rem;
-            color: var(--secondary-text);
-            display: flex;
-            justify-content: space-between;
+        .news-date {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            color: var(--primary-color);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">&lt;YX:\&gt;</div>
+
+    <nav>
+        <div class="logo">Ye Xia</div>
         
-        <header>
-            <h1>Ye Xia</h1>
-            <div class="subtitle">PhD Researcher | College of Design and Engineering, NUS</div>
-        </header>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
 
-        <section id="about">
-            <p>I am a PhD student at the National University of Singapore. My research decodes the intersection of urban sustainability, building decarbonization, and spatial analytics.</p>
-            <p>I leverage data-driven methodologies—including machine learning, large-scale geospatial analysis, and agent-based modeling—to understand how cities evolve and how we can design them for optimal energy performance and environmental equity.</p>
-        </section>
+        <div class="nav-links" id="nav-links">
+            <a href="#about">About</a>
+            <a href="#research">Research</a>
+            <a href="#news">News</a>
+            <a href="#publications">Publications</a>
+            <a href="https://github.com/xiaye-lab" target="_blank">GitHub</a>
+        </div>
+    </nav>
 
-        <section id="news">
-            <h2>Latest News</h2>
-            <ul>
-                <li><span class="date-tag">[Dec 2025]</span> Honored to receive the <strong>Best Poster Award</strong> at the Singapore Scientific Conference (SSC).</li>
-                <li><span class="date-tag">[Dec 2025]</span> Awarded Runner-up in the Suzhou Entrepreneurship Competition.</li>
-            </ul>
-        </section>
-
-        <section id="research">
-            <h2>Research Focus</h2>
-            <ul>
-                <li><strong>Urban Morphology & GNNs:</strong> Developing Graph Neural Network models (GAT/GATv2) to analyze spatial spillovers and the trade-offs between Environmental and Societal Performance Indices in Singapore.</li>
-                <li><strong>Decarbonization Strategies:</strong> Conducting comparative analyses of building decarbonization policies and strategies between high-density cities like Singapore and Hong Kong.</li>
-                <li><strong>Agent-Based Energy Management:</strong> Designing multi-agent systems using the OpenClaw framework to simulate and manage energy consumption and thermal comfort across the NUS campus.</li>
-            </ul>
-        </section>
-
-        <section id="working-papers">
-            <h2>Publications & Working Papers</h2>
-            <ul>
-                <li><strong>Xia, Y.</strong>, et al. (In Prep). <em>The Co-Benefits of Building Decarbonization: A Comprehensive Review.</em> 
-                    <br><span style="font-size: 0.9rem; color: #666;">Comprehensive literature review analyzing massive datasets to map the multi-dimensional impacts of urban decarbonization.</span>
-                </li>
-                <li><strong>Xia, Y.</strong>, et al. (In Prep). <em>Comparative Decarbonization Strategies: A Tale of Two High-Density Cities (Singapore & Hong Kong).</em></li>
-            </ul>
-        </section>
-
-        <section id="skills">
-            <h2>Technical Sandbox</h2>
-            <p>
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">PyTorch (GNNs)</span>
-                <span class="skill-tag">OpenClaw (Agents)</span>
-                <span class="skill-tag">ArcGIS Pro</span>
-                <span class="skill-tag">QGIS</span>
-                <span class="skill-tag">EnergyPlus</span>
-                <span class="skill-tag">Climate Studio</span>
-            </p>
-        </section>
-
-        <section id="contact">
-            <h2>Connect</h2>
-            <ul>
-                <li>Email: <a href="mailto:your-email@u.nus.edu">your-email@u.nus.edu</a></li>
-                <li>GitHub: <a href="https://github.com/xiaye-lab">github.com/xiaye-lab</a></li>
-                <li>Google Scholar: <a href="#">[Link to Scholar]</a></li>
-            </ul>
-        </section>
-
-        <footer>
-            <span>© 2026 Ye Xia. Inspired by the syntax of cities.</span>
-            <span>Based in Singapore</span>
-        </footer>
+    <div class="hero-container">
+        <div class="hero-caption">NUS Campus, Singapore</div>
+        <div class="profile-wrapper">
+            <div class="profile-pic"></div>
+        </div>
     </div>
+
+    <div class="content">
+        
+        <div class="announcement" id="about">
+            I am a PhD student at the <strong>National University of Singapore (NUS)</strong> in the College of Design and Engineering, working within the City Syntax Lab. My research focuses on <strong>urban sustainability, building decarbonization,</strong> and <strong>spatial analytics</strong>. <a href="#research">More details here &raquo;</a>
+        </div>
+
+        <p>
+            With a focus on data-driven methodologies, my work aims to unlock the potential of urban data to accelerate the energy transition in high-density cities. I leverage machine learning (specifically Graph Neural Networks), large-scale geospatial analysis, and agent-based modeling to address scientific and practical challenges in creating zero-carbon, equitable urban environments.
+        </p>
+
+        <h2 id="research">Research</h2>
+        <p>
+            My research sits at the intersection of the built environment and computational technologies. I am currently developing Graph Neural Network (UrbanGNN) models to analyze spatial spillovers and the trade-offs between Environmental and Societal Performance Indices in Singapore. Additionally, I am designing multi-agent systems using the OpenClaw framework to simulate and manage energy consumption and thermal comfort across the NUS campus. <a href="https://github.com/xiaye-lab">View my code repositories &raquo;</a>
+        </p>
+
+        <h2 id="news">News</h2>
+        <ul class="news-list">
+            <li>💻 <span class="news-date">03/2026</span> - Energy management with AI.</li>
+            <li>📝 <span class="news-date">02/2026</span> - Building decarbonization.</li>
+            <li>🏆 <span class="news-date">12/2025</span> - Honored to receive the <em>Best Poster Award</em> at the Singapore Scientific Conference (SSC).</li>
+            <li>🥈 <span class="news-date">12/2025</span> - Awarded Runner-up in the Suzhou Entrepreneurship Competition.</li>
+        </ul>
+
+        <h2 id="publications">Working Papers</h2>
+        <ul style="padding-left: 1.2rem;">
+            <li><strong>Xia, Y.</strong>, et al. (In Prep). <em>The Co-Benefits of Building Decarbonization: A Comprehensive Review.</em></li>
+            <li><strong>Xia, Y.</strong>, et al. (In Prep). <em>Comparative Decarbonization Strategies: A Tale of Two High-Density Cities (Singapore & Hong Kong).</em></li>
+        </ul>
+
+    </div>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        // Listen for a click on the hamburger button
+        mobileMenu.addEventListener('click', () => {
+            // Toggle the 'active' class to show/hide the menu
+            navLinks.classList.toggle('active');
+        });
+
+        // Optional: Close the menu when a link is clicked
+        const links = document.querySelectorAll('.nav-links a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
