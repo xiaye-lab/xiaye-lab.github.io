@@ -17,6 +17,11 @@
             --font-serif: Georgia, "Times New Roman", Times, serif;
         }
 
+        /* 交互功能 1: 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -46,8 +51,12 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 5%;
-            position: relative;
-            z-index: 100; /* Ensure nav is above other content */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 90%; 
+            z-index: 100;
+            transition: box-shadow 0.3s ease; 
         }
 
         .logo {
@@ -73,7 +82,7 @@
             color: var(--primary-color);
         }
 
-        /* Hamburger Menu Button (Hidden on Desktop) */
+        /* Hamburger Menu Button */
         .menu-toggle {
             display: none;
             flex-direction: column;
@@ -92,14 +101,10 @@
             transition: all 0.3s ease;
         }
 
-        /* Responsive Design for Mobile (Screens smaller than 768px) */
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: flex; /* Show hamburger button */
-            }
-
+            .menu-toggle { display: flex; }
             .nav-links {
-                display: none; /* Hide links by default on mobile */
+                display: none;
                 flex-direction: column;
                 position: absolute;
                 top: 100%;
@@ -110,21 +115,14 @@
                 box-shadow: 0 4px 6px rgba(0,0,0,0.1);
                 border-top: 1px solid #eee;
             }
-
-            /* This class is added by JavaScript when the button is clicked */
-            .nav-links.active {
-                display: flex;
-            }
-
+            .nav-links.active { display: flex; }
             .nav-links a {
                 padding: 1rem 5%;
                 border-bottom: 1px solid #eee;
                 display: block;
             }
-
-            .nav-links a:last-child {
-                border-bottom: none;
-            }
+            .nav-links a:last-child { border-bottom: none; }
+            nav { width: 100%; padding: 1rem 0; padding-left: 5%; padding-right: 5%; box-sizing: border-box; }
         }
 
         /* Hero Banner & Profile Picture */
@@ -133,10 +131,10 @@
             width: 100%;
             height: 350px;
             background-color: #ddd;
-            /* REPLACE THE URL BELOW WITH A LINK TO YOUR BANNER IMAGE */
-            background-image: url('https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=2000&auto=format&fit=crop'); 
+            background-image: url('banner.jpg'); /* 确保你上传了名为 banner.jpg 的图片 */
             background-size: cover;
             background-position: center;
+            margin-top: 60px; 
         }
 
         .hero-caption {
@@ -165,9 +163,8 @@
             border: 4px solid white;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             object-fit: cover;
-            /* REPLACE THE URL BELOW WITH A LINK TO YOUR HEADSHOT */
             background-color: #eee;
-            background-image: url('profile.jpg');
+            background-image: url('profile.jpg'); /* 确保你上传了名为 profile.jpg 的头像 */
             background-size: cover;
             background-position: center;
         }
@@ -192,6 +189,7 @@
             color: var(--primary-color);
             margin-top: 2.5rem;
             margin-bottom: 1rem;
+            scroll-margin-top: 80px; 
         }
 
         .news-list {
@@ -209,6 +207,36 @@
             font-family: var(--font-sans);
             font-weight: 700;
             color: var(--primary-color);
+        }
+
+        /* 交互功能 2: Abstract 折叠按钮样式 */
+        .abstract-btn {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 2px 8px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.2s;
+            font-family: var(--font-sans);
+        }
+
+        .abstract-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .abstract-content {
+            display: none;
+            background-color: #f9f9f9;
+            border-left: 3px solid var(--link-color);
+            padding: 10px 15px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-indent: 0;
         }
     </style>
 </head>
@@ -264,28 +292,59 @@
 
         <h2 id="publications">Publications</h2>
         <ul style="padding-left: 1.2rem;">
-            <li><strong>Xia, Y.</strong>, et al. (2025). <a href="https://www.sciencedirect.com/science/article/abs/pii/S2210670725006079" target="_blank"><em>The optimal buffer for urban features to impact outdoor thermal comfort</em></a>. Sustainable Cities and Society.</li>
-            <li><strong>Xia, Y.</strong>, et al. (2025). <a href="https://www.sciencedirect.com/science/article/pii/S0378778825001811" target="_blank"><em>Understanding the impacts of space design on local outdoor thermal comfort: An approach combining DepthmapX and XGBoost</em></a>. Energy and Buildings.</li>
+            <li style="margin-bottom: 1.5rem;">
+                <strong>Xia, Y.</strong>, et al. (2025). <a href="https://www.sciencedirect.com/science/article/abs/pii/S2210670725006079" target="_blank"><em>The optimal buffer for urban features to impact outdoor thermal comfort</em></a>. Sustainable Cities and Society.
+                <button class="abstract-btn" onclick="toggleAbstract('abs1')">Abstract</button>
+                <div id="abs1" class="abstract-content">
+                    This paper aims to answer one question: Within which buffer, and in what ways, do urban features impact outdoor thermal comfort (OTC) across diverse urban settings most effectively? To address this question, the research adopts a buffer-dependent workflow consisting of five steps: (1) Cooler Area Searching; (2) OTC Simulation; (3) Cross-scale Validation; (4) Cooler Area Identification; and (5) Space Design Analysis. At the methodology's core is a series of machine learning tools (e.g., Bayesian-optimized CatBoost models and Shapley Additive exPlanations) used to identify the optimal buffer and interpret the urban features that matter. The results showed that an optimal buffer range of 30 to 50 m accurately captures the thermal impacts of urban features across eight typical local climate zones (LCZs). Notably, urban features’ critical impact on OTC was highlighted, including percentage of view (PV), orientation of view (OV), average height index (AHI), and vegetation coverage (VE). For the first time, this research articulates the optimal buffer for urban features to maximize OTC in different LCZs. The findings provide buffer-sensitive microclimates interventions and content-specific strategies for urban designers and policymakers to address the rampant threat of heat waves and foster sustainable development.
+                </div>
+            </li>
+            
+            <li style="margin-bottom: 1.5rem;">
+                <strong>Xia, Y.</strong>, et al. (2025). <a href="https://www.sciencedirect.com/science/article/pii/S0378778825001811" target="_blank"><em>Understanding the impacts of space design on local outdoor thermal comfort: An approach combining DepthmapX and XGBoost</em></a>. Energy and Buildings.
+                <button class="abstract-btn" onclick="toggleAbstract('abs2')">Abstract</button>
+                <div id="abs2" class="abstract-content">
+                    Researchers and designers alike are keen to explore proper space designs to alleviate the heat waves. A niche research area of this type focuses on the smaller scale, local communities to achieve the so-called ‘cool spots’ for residents. However, despite the momentum gained so far, it remains unclear what the key design elements are (e.g., space orientation, aspect ratio, or building density) and how they interact with each other in impacting outdoor thermal comfort (OTC), particularly in some complex, vertical ‘spots’. This research aims to provide an improved understanding of cool spot reasoning by proposing a new paradigm to engage DepthmapX (an analytic tool for urban spatial configuration), XGBoost (a machine learning tool), and on-site verification. By implementing the paradigm on a university campus in Hong Kong for the case study, it was discovered that Percentage of View (PV), Average Height Index (AHI), and Connectivity (CON) are the three most influential factors leading to the formation of a ‘cool spot’. DepthmapX can not only help quantify space designs but also help translate the indexes back to real-life space design options. The XGBoost can help better interpret the pathway from different space design indexes to different OTC but more explainable causal relationships are desired. This research advanced our understanding of the impacts of different space designs on OTC and provided references to designers in achieving OTC in smaller--scale, local communities. It also opens a new avenue to understand the causal relationships in a more detailed and explainable fashion.
+                </div>
+            </li>
         </ul>
 
     </div>
 
     <script>
+        // 移动端菜单控制
         const mobileMenu = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
 
-        // Listen for a click on the hamburger button
         mobileMenu.addEventListener('click', () => {
-            // Toggle the 'active' class to show/hide the menu
             navLinks.classList.toggle('active');
         });
 
-        // Optional: Close the menu when a link is clicked
         const links = document.querySelectorAll('.nav-links a');
         links.forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('active');
             });
+        });
+
+        // 交互功能 2: 摘要展开/收起控制
+        function toggleAbstract(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === "block") {
+                element.style.display = "none";
+            } else {
+                element.style.display = "block";
+            }
+        }
+
+        // 交互功能 3: 导航栏滚动阴影
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            } else {
+                nav.style.boxShadow = 'none';
+            }
         });
     </script>
 </body>
