@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ye Xia | Academic Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Base and Typography */
         :root {
@@ -238,6 +239,25 @@
             color: var(--text-muted);
             text-indent: 0;
         }
+        /* 社交图标样式 */
+        .social-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons a {
+            color: #888888; /* 默认灰色，和你的截图类似 */
+            font-size: 1.8rem; /* 图标大小 */
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        /* 鼠标悬停时的效果：稍微放大并改变颜色 */
+        .social-icons a:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -276,6 +296,12 @@
         <p>
             With a focus on data-driven methodologies, my work aims to unlock the potential of urban data to accelerate the energy transition in high-density cities. I leverage machine learning (specifically Graph Neural Networks), large-scale geospatial analysis, and agent-based modeling to address scientific and practical challenges in creating zero-carbon, equitable urban environments.
         </p>
+
+        <div class="social-icons">
+            <a href="https://github.com/xiaye-lab" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/ye-xia-91a3992b2/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:ye.xia@u.nus.edu" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
 
         <h2 id="research">Research</h2>
         <p>
