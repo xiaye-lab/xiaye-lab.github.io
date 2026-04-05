@@ -239,25 +239,41 @@
             color: var(--text-muted);
             text-indent: 0;
         }
-        /* 社交图标样式 */
+        
+        /* 底部 Footer 与社交图标样式 */
+        footer {
+            text-align: center; /* 让图标和文字居中 */
+            padding: 3rem 0 2rem 0; /* 上下留出空白 */
+            margin-top: 4rem; /* 和正文拉开距离 */
+            border-top: 1px solid #eaeaea; /* 加一条淡淡的分割线 */
+            background-color: var(--bg-color);
+        }
+
         .social-icons {
             display: flex;
+            justify-content: center; /* 强制图标居中排列 */
             gap: 1.5rem;
-            margin-top: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
         .social-icons a {
-            color: #888888; /* 默认灰色，和你的截图类似 */
-            font-size: 1.8rem; /* 图标大小 */
+            color: #888888;
+            font-size: 1.8rem;
             transition: color 0.3s ease, transform 0.2s ease;
         }
 
-        /* 鼠标悬停时的效果：稍微放大并改变颜色 */
         .social-icons a:hover {
             color: var(--primary-color);
             transform: scale(1.1);
         }
+
+        footer p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+            font-family: var(--font-sans);
+        }
+        
     </style>
 </head>
 <body>
@@ -297,12 +313,6 @@
             With a focus on data-driven methodologies, my work aims to unlock the potential of urban data to accelerate the energy transition in high-density cities. I leverage machine learning (specifically Graph Neural Networks), large-scale geospatial analysis, and agent-based modeling to address scientific and practical challenges in creating zero-carbon, equitable urban environments.
         </p>
 
-        <div class="social-icons">
-            <a href="https://github.com/xiaye-lab" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/ye-xia-91a3992b2/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="mailto:ye.xia@u.nus.edu" title="Email"><i class="fas fa-envelope"></i></a>
-        </div>
-
         <h2 id="research">Research</h2>
         <p>
             My research sits at the intersection of the built environment and computational technologies. I am currently developing Graph Neural Network (UrbanGNN) models to analyze spatial spillovers and the trade-offs between Environmental and Societal Performance Indices in Singapore. Additionally, I am designing multi-agent systems using the OpenClaw framework to simulate and manage energy consumption and thermal comfort across the NUS campus. <a href="https://github.com/xiaye-lab">View my code repositories &raquo;</a>
@@ -335,7 +345,14 @@
             </li>
         </ul>
 
-    </div>
+    </div> <footer>
+        <div class="social-icons">
+            <a href="https://github.com/xiaye-lab" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/ye-xia-91a3992b2/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:ye.xia@u.nus.edu" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+        <p>© 2026 Ye Xia. All rights reserved.</p>
+    </footer>
 
     <script>
         // 移动端菜单控制
