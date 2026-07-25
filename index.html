@@ -273,7 +273,54 @@
             margin: 0;
             font-family: var(--font-sans);
         }
-        
+
+        /* Lab Updates Section */
+        .lab-post-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0077b5; /* 领英品牌蓝 */
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.2rem;
+            border-radius: 0 6px 6px 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .lab-post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .lab-post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.6rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: var(--font-sans);
+        }
+
+        .lab-post-header strong {
+            color: var(--primary-color);
+        }
+
+        .lab-post-content {
+            font-size: 0.98rem;
+            margin-bottom: 0.8rem;
+            line-height: 1.6;
+        }
+
+        .lab-post-link {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #0077b5 !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lab-post-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -317,6 +364,121 @@
             My research sits at the intersection of the built environment and computational technologies. I am currently developing Graph Neural Network (UrbanGNN) models to analyze spatial spillovers and the trade-offs between Environmental and Societal Performance Indices in Singapore. Additionally, I am designing multi-agent systems using the OpenClaw framework to simulate and manage energy consumption and thermal comfort across the NUS campus. <a href="https://github.com/xiaye-lab">View my code repositories &raquo;</a>
         </p>
 
+        <!-- Lab Updates 模块 -->
+        <h2 id="lab-updates">Lab Highlights</h2>
+        
+        <!-- 第一条 Lab 动态 -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">07/2026</span>
+            </div>
+            <div class="lab-post-content">
+                Excited to share our team's latest research on urban sustainability and building energy transitions! Check out our new publication in <em>Sustainable Cities and Society</em>.
+            </div>
+            <a href="https://www.linkedin.com/posts/nus-city-syntax-lab_sustainable-cities-and-society-publishes-activity-7484804313643474944-N-4N?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第二条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                World Cities Summit.
+            </div>
+            <a href="https://www.linkedin.com/posts/ye-xia-91a3992b2_worldcitiessummit-worldcitiessummit-wcs2026-ugcPost-7473551860331720704-aO7l?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第三条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                World Cities Summit.
+            </div>
+            <a href="https://www.linkedin.com/posts/ye-xia-91a3992b2_worldcitiessummit-worldcitiessummit-wcs2026-ugcPost-7473551860331720704-aO7l?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第四条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                Building and Simulation 2026 Conference.
+            </div>
+            <a href="https://www.linkedin.com/posts/nus-city-syntax-lab_bas2026-activity-7471223690756546560-prmJ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第五条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                Building and Simulation 2026 Conference.
+            </div>
+            <a href="https://www.linkedin.com/posts/ye-xia-91a3992b2_bas2026-buildingsimulation-research-ugcPost-7472482158129926144-DKnw?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第六条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                Best Poster Prize (Environment Category) at the Singapore Scientific Conference (SSC) 2026.
+            </div>
+            <a href="https://www.linkedin.com/posts/nus-city-syntax-lab_we-are-proud-to-share-that-ye-xia-has-been-activity-7404714860393041923-jGNV?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第七条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                Boeing BUILD program.
+            </div>
+            <a href="https://www.linkedin.com/posts/nus-city-syntax-lab_we-are-delighted-that-urbanflow-has-won-the-activity-7463422286914564097-eLD-?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+
+        <!-- 第八条 Lab 动态（可选，多条时复制此块） -->
+        <div class="lab-post-card">
+            <div class="lab-post-header">
+                <span><strong>City Syntax Lab</strong></span>
+                <span class="news-date">03/2026</span>
+            </div>
+            <div class="lab-post-content">
+                Urbanflow as Runner-Up of Suzhou entrepreneurial bootcamp.
+            </div>
+            <a href="https://www.linkedin.com/posts/urbanflow-ai_last-week-capped-off-a-truly-productive-week-ugcPost-7369656062880292865-e8PJ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEsp3uYB5IpgXilleHJ3Z4M86fTUY-UVeZ0" target="_blank" class="lab-post-link">
+                <i class="fab fa-linkedin"></i> View on LinkedIn &raquo;
+            </a>
+        </div>
+   
         <h2 id="news">News</h2>
         <ul class="news-list">
             <li>🎤 <span class="news-date">07/2026</span> - Honored to receive the <a href="https://www.linkedin.com/feed/update/urn:li:activity:7472482160113774592/" target="_blank"><em>Best Oral Presentation</em> at The International Conference of Building and Simulation 2026</a>.</li>
