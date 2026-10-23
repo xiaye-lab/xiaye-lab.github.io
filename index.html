@@ -341,7 +341,8 @@
         .project-media img {
             position: absolute; inset: 0;
             width: 100%; height: 100%;
-            object-fit: cover;
+            object-fit: contain;          /* 科研图完整显示，不裁切 */
+            background: #ffffff;          /* 白底：深色模式下图里的黑字也看得清 */
             transition: opacity 0.45s ease, transform 0.6s ease;
         }
         /* 悬停时切换到第二张图（例如：方法图 → 结果图） */
@@ -468,8 +469,15 @@
             background: linear-gradient(135deg, var(--accent-soft), var(--surface));
             border: 1px solid var(--border);
         }
-        .pub-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .pub:hover .pub-thumb img { transform: scale(1.08); }
+        /* 图片盖在期刊缩写之上；contain + 白底，方形/竖版图也能完整显示 */
+        .pub-thumb img {
+            position: absolute; inset: 0; z-index: 1;
+            width: 100%; height: 100%;
+            object-fit: contain; background: #ffffff;
+            transition: transform 0.4s ease;
+        }
+        .pub-thumb .new-badge { z-index: 2; }
+        .pub:hover .pub-thumb img { transform: scale(1.06); }
         .pub-thumb .journal {
             position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
             font-family: var(--font-sans); color: var(--accent); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.04em;
@@ -646,15 +654,15 @@
         </p>
 
         <!--
-            图片说明：每张卡片有两张图（默认图 + 悬停图），放到 images/ 文件夹即可，建议 800x500。
+            图片说明：每张卡片有两张图（默认图 + 悬停图），和 index.html 放在同一层（仓库根目录），建议 800x500。
             文件不存在时会自动显示图标占位，不会出现裂图。
         -->
         <div class="projects">
             <article class="project reveal">
                 <div class="project-media">
                     <span class="fallback"><i class="fas fa-diagram-project"></i></span>
-                    <img src="images/research-gnn-1.png" alt="UrbanGNN framework" loading="lazy" onerror="this.remove()">
-                    <img class="hover-img" src="images/research-gnn-2.png" alt="UrbanGNN results map" loading="lazy" onerror="this.remove()">
+                    <img src="research-gnn-1.png" alt="UrbanGNN framework" loading="lazy" onerror="this.remove()">
+                    <img class="hover-img" src="research-gnn-2.png" alt="UrbanGNN results map" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="project-body">
                     <h3 data-zh="UrbanGNN：城市形态与可持续性权衡">UrbanGNN: Morphology &amp; Sustainability Trade-offs</h3>
@@ -669,8 +677,8 @@
             <article class="project reveal">
                 <div class="project-media">
                     <span class="fallback"><i class="fas fa-city"></i></span>
-                    <img src="images/research-ubem-1.png" alt="Urban building energy model" loading="lazy" onerror="this.remove()">
-                    <img class="hover-img" src="images/research-ubem-2.png" alt="Co-benefits map" loading="lazy" onerror="this.remove()">
+                    <img src="research-ubem-1.png" alt="Urban building energy model" loading="lazy" onerror="this.remove()">
+                    <img class="hover-img" src="research-ubem-2.png" alt="Co-benefits map" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="project-body">
                     <h3 data-zh="建筑脱碳的协同效益">Co-benefits of Building Decarbonization</h3>
@@ -685,8 +693,8 @@
             <article class="project reveal">
                 <div class="project-media">
                     <span class="fallback"><i class="fas fa-robot"></i></span>
-                    <img src="images/research-agents-1.png" alt="Multi-agent campus system" loading="lazy" onerror="this.remove()">
-                    <img class="hover-img" src="images/research-agents-2.png" alt="Campus energy dashboard" loading="lazy" onerror="this.remove()">
+                    <img src="research-agents-1.png" alt="Multi-agent campus system" loading="lazy" onerror="this.remove()">
+                    <img class="hover-img" src="research-agents-2.png" alt="Campus energy dashboard" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="project-body">
                     <h3 data-zh="NUS 校园多智能体能源管理">Multi-agent Campus Energy Management</h3>
@@ -747,14 +755,14 @@
             新增论文时：复制一个 <li class="pub"> 改内容即可。
             data-tags  ：筛选用（用空格分隔）
             data-doi   ：BibTeX 按钮会用它从 doi.org 实时获取引用
-            缩略图     ：images/pub-文件名.png，不存在时显示期刊缩写
+            缩略图     ：pub-文件名.png（放仓库根目录），不存在时显示期刊缩写
         -->
         <ul class="pub-list" id="pub-list">
 
             <li class="pub reveal" data-tags="decarb" data-doi="10.1016/j.scs.2026.107774">
                 <div class="pub-thumb">
                     <span class="journal">SCS<small>2026</small></span>
-                    <img src="images/pub-scs-107774.png" alt="" loading="lazy" onerror="this.remove()">
+                    <img src="pub-scs-107774.png" alt="" loading="lazy" onerror="this.remove()">
                     <span class="new-badge">NEW</span>
                 </div>
                 <div class="pub-info">
@@ -775,7 +783,7 @@
             <li class="pub reveal" data-tags="gnn singapore" data-doi="10.1016/j.scs.2026.107687">
                 <div class="pub-thumb">
                     <span class="journal">SCS<small>2026</small></span>
-                    <img src="images/pub-scs-107687.png" alt="" loading="lazy" onerror="this.remove()">
+                    <img src="pub-scs-107687.png" alt="" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="pub-info">
                     <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2026.107687" target="_blank" rel="noopener">Urban morphology as a driver of urban sustainability trade-offs and synergies: an explainable graph neural network analysis of Singapore</a></p>
@@ -795,7 +803,7 @@
             <li class="pub reveal" data-tags="gnn hongkong shenzhen" data-doi="10.1016/j.scs.2026.107383">
                 <div class="pub-thumb">
                     <span class="journal">SCS<small>2026</small></span>
-                    <img src="images/pub-scs-107383.png" alt="" loading="lazy" onerror="this.remove()">
+                    <img src="pub-scs-107383.png" alt="" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="pub-info">
                     <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2026.107383" target="_blank" rel="noopener">Balancing urban environmental and societal performance in high-density cities: Morphological trade-offs and optimization strategies in Shenzhen and Hong Kong</a></p>
@@ -815,7 +823,7 @@
             <li class="pub reveal" data-tags="thermal hongkong" data-doi="10.1016/j.scs.2025.106733">
                 <div class="pub-thumb">
                     <span class="journal">SCS<small>2025</small></span>
-                    <img src="images/pub-scs-106733.png" alt="" loading="lazy" onerror="this.remove()">
+                    <img src="pub-scs-106733.png" alt="" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="pub-info">
                     <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2025.106733" target="_blank" rel="noopener">The optimal buffer for urban features to impact outdoor thermal comfort</a></p>
@@ -835,7 +843,7 @@
             <li class="pub reveal" data-tags="thermal hongkong" data-doi="10.1016/j.enbuild.2025.115451">
                 <div class="pub-thumb">
                     <span class="journal">E&amp;B<small>2025</small></span>
-                    <img src="images/pub-enb-115451.png" alt="" loading="lazy" onerror="this.remove()">
+                    <img src="pub-enb-115451.png" alt="" loading="lazy" onerror="this.remove()">
                 </div>
                 <div class="pub-info">
                     <p class="pub-title"><a href="https://doi.org/10.1016/j.enbuild.2025.115451" target="_blank" rel="noopener">Understanding the impacts of space design on local outdoor thermal comfort: An approach combining DepthmapX and XGBoost</a></p>
