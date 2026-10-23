@@ -1024,12 +1024,14 @@
 
         /* ---------- 研究案例地图 ---------- */
         let map, tiles;
+        // 底图：Esri 浅灰 / 深灰画布（免 API key）。CARTO 现在需要 key，已弃用。
         function setMapTiles() {
             if (!map) return;
-            const style = isDark() ? 'dark_all' : 'light_all';
+            const style = isDark() ? 'World_Dark_Gray_Base' : 'World_Light_Gray_Base';
             if (tiles) map.removeLayer(tiles);
-            tiles = L.tileLayer(`https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`, {
-                attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 18
+            tiles = L.tileLayer(`https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/${style}/MapServer/tile/{z}/{y}/{x}`, {
+                attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+                maxZoom: 16
             }).addTo(map);
         }
         // 新增案例城市时，在这里加一行；filter 对应论文的 data-tags
