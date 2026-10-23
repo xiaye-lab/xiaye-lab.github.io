@@ -3,37 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- 搜索引擎优化 (SEO) Meta Tags -->
     <title>Xia Ye (夏晔) | PhD Researcher at NUS | Urban Sustainability</title>
     <meta name="description" content="Academic profile of Xia Ye (夏晔), a PhD student at the National University of Singapore (NUS). Research focuses on urban sustainability, building decarbonization, and spatial analytics using Graph Neural Networks.">
     <meta name="keywords" content="Ye Xia, Xia Ye, 夏晔, NUS, PhD, Urban Sustainability, Building Decarbonization, City Syntax Lab, Graph Neural Networks, Singapore">
     <meta name="author" content="Xia Ye">
-    
-    <!-- 社交媒体分享卡片优化 (LinkedIn, Twitter等) -->
+
+    <!-- 社交媒体分享卡片 (LinkedIn, 微信, Twitter 等) -->
     <meta property="og:title" content="Xia Ye | Academic Profile">
     <meta property="og:description" content="PhD Researcher at NUS focusing on urban sustainability and spatial analytics.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://xiaye-lab.github.io/">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 【新增】分享预览图：建议之后做一张 1200x630 的专用图并改成 og-image.jpg -->
+    <meta property="og:image" content="https://xiaye-lab.github.io/cover.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- 【升级】Font Awesome 6.5.2：6.4.0 没有 Google Scholar 图标，这是页脚空位的原因 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- 【新增】Leaflet 地图库（Case-study 交互地图用） -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+
+    <!-- 在页面渲染前就确定深/浅色，避免闪烁 -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+            } catch (e) {}
+        })();
+    </script>
+
     <style>
-        /* Base and Typography */
+        /* ========== 颜色变量（浅色） ========== */
         :root {
             --primary-color: #2c3e50;
-            --link-color: #3b82f6;
+            --accent: #0f766e;            /* 青绿色：呼应可持续 / 城市绿色主题 */
+            --accent-soft: #e6f4f1;
+            --link-color: #2563eb;
             --bg-color: #ffffff;
-            --nav-bg: #f8f9fa;
+            --surface: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+            --nav-bg: rgba(248, 249, 250, 0.88);
             --text-main: #333333;
             --text-muted: #666666;
-            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --font-serif: Georgia, "Times New Roman", Times, serif;
+            --shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+            --shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.13);
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            --font-serif: Georgia, "Times New Roman", Times, "Songti SC", serif;
         }
 
-        /* 交互功能 1: 平滑滚动 */
-        html {
-            scroll-behavior: smooth;
+        /* ========== 颜色变量（深色）：跟随系统，或手动切换 ========== */
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --primary-color: #e2e8f0;
+                --accent: #5eead4;
+                --accent-soft: #123b37;
+                --link-color: #7aa7ff;
+                --bg-color: #0f1418;
+                --surface: #171e24;
+                --card-bg: #182027;
+                --border: #2a343d;
+                --nav-bg: rgba(15, 20, 24, 0.88);
+                --text-main: #d6dde4;
+                --text-muted: #9aa6b2;
+                --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+                --shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.55);
+            }
         }
+        :root[data-theme="dark"] {
+            --primary-color: #e2e8f0;
+            --accent: #5eead4;
+            --accent-soft: #123b37;
+            --link-color: #7aa7ff;
+            --bg-color: #0f1418;
+            --surface: #171e24;
+            --card-bg: #182027;
+            --border: #2a343d;
+            --nav-bg: rgba(15, 20, 24, 0.88);
+            --text-main: #d6dde4;
+            --text-muted: #9aa6b2;
+            --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+            --shadow-hover: 0 10px 28px rgba(0, 0, 0, 0.55);
+        }
+
+        html { scroll-behavior: smooth; }
 
         body {
             margin: 0;
@@ -42,123 +97,126 @@
             color: var(--text-main);
             line-height: 1.7;
             background-color: var(--bg-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        h1, h2, h3, .nav-links a, .logo {
-            font-family: var(--font-sans);
-        }
+        h1, h2, h3, .nav-links a, .logo, button, .chip, .tag { font-family: var(--font-sans); }
 
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-        }
+        a { color: var(--link-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Navigation Bar */
+        /* ========== 导航栏 ========== */
         nav {
             background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
+            padding: 0.9rem 5%;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 90%; 
-            z-index: 100;
-            transition: box-shadow 0.3s ease; 
+            top: 0; left: 0; right: 0;
+            box-sizing: border-box;
+            z-index: 1000;
+            transition: box-shadow 0.3s ease;
         }
+        nav.scrolled { box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.12); }
 
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary-color); margin: 0; }
+        .logo a { color: inherit; }
+        .logo a:hover { text-decoration: none; }
 
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
+        .nav-right { display: flex; align-items: center; gap: 1.2rem; }
+        .nav-links { display: flex; gap: 1.4rem; }
 
         .nav-links a {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 700;
-            color: #555;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
+            position: relative;
+            padding: 4px 0;
         }
+        .nav-links a:hover { color: var(--primary-color); text-decoration: none; }
 
-        .nav-links a:hover {
-            color: var(--primary-color);
+        /* 【新增】滚动时高亮当前章节 */
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0; bottom: -2px;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.25s ease;
         }
+        .nav-links a.active { color: var(--accent); }
+        .nav-links a.active::after, .nav-links a:hover::after { width: 100%; }
 
-        /* Hamburger Menu Button */
+        .tool-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 6px;
+            height: 32px;
+            min-width: 32px;
+            padding: 0 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .tool-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .tools { display: flex; gap: 6px; }
+
         .menu-toggle {
             display: none;
             flex-direction: column;
+            justify-content: center;
             cursor: pointer;
             gap: 5px;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 6px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
             background-color: transparent;
         }
+        .menu-toggle .bar { width: 20px; height: 2px; background-color: var(--text-muted); }
 
-        .menu-toggle .bar {
-            width: 22px;
-            height: 2px;
-            background-color: #555;
-            transition: all 0.3s ease;
-        }
-
-        @media (max-width: 768px) {
+        @media (max-width: 860px) {
             .menu-toggle { display: flex; }
             .nav-links {
                 display: none;
                 flex-direction: column;
+                gap: 0;
                 position: absolute;
-                top: 100%;
-                left: 0;
+                top: 100%; left: 0;
                 width: 100%;
-                background-color: var(--nav-bg);
-                padding: 0;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                border-top: 1px solid #eee;
+                background-color: var(--bg-color);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border-top: 1px solid var(--border);
             }
-            .nav-links.active { display: flex; }
-            .nav-links a {
-                padding: 1rem 5%;
-                border-bottom: 1px solid #eee;
-                display: block;
-            }
-            .nav-links a:last-child { border-bottom: none; }
-            nav { width: 100%; padding: 1rem 0; padding-left: 5%; padding-right: 5%; box-sizing: border-box; }
+            .nav-links.open { display: flex; }
+            .nav-links a { padding: 0.9rem 5%; border-bottom: 1px solid var(--border); }
+            .nav-links a::after { display: none; }
         }
 
-        /* Hero Banner & Profile Picture */
+        /* ========== Hero ========== */
         .hero-container {
             position: relative;
             width: 100%;
             height: 350px;
             background-color: #ddd;
-            background-image: url('cover.jpg'); /* 确保你上传了名为 banner.jpg 的图片 */
+            background-image: url('cover.jpg');
             background-size: cover;
             background-position: center;
-            margin-top: 60px; 
+            margin-top: 60px;
         }
-
-        .hero-caption {
+        /* 底部渐变，让头像和页面自然衔接 */
+        .hero-container::after {
+            content: "";
             position: absolute;
-            bottom: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 4px 12px;
-            font-size: 0.8rem;
-            font-family: var(--font-sans);
+            inset: auto 0 0 0;
+            height: 90px;
+            background: linear-gradient(to bottom, transparent, var(--bg-color));
         }
 
         .profile-wrapper {
@@ -170,264 +228,859 @@
         }
 
         .profile-pic {
-            width: 140px;
-            height: 140px;
+            width: 140px; height: 140px;
             border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            object-fit: cover;
+            border: 4px solid var(--bg-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             background-color: #eee;
-            background-image: url('profile.jpg'); /* 确保你上传了名为 profile.jpg 的头像 */
+            background-image: url('profile.jpg');
             background-size: cover;
             background-position: center;
+            transition: transform 0.4s ease;
         }
+        .profile-pic:hover { transform: scale(1.05) rotate(-2deg); }
 
-        /* Main Content Layout */
-        .content {
-            max-width: 800px;
-            margin: 80px auto 40px auto;
-            padding: 0 20px;
+        /* 头像下方：名字 + 一句话 + 快捷按钮 */
+        .identity { text-align: center; margin-top: 72px; padding: 0 16px; }
+        .identity h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: var(--primary-color);
+            letter-spacing: -0.01em;
         }
+        .identity h1 .cn { font-weight: 400; color: var(--text-muted); font-size: 1.4rem; margin-left: 6px; }
+        .identity .tagline {
+            margin: 4px 0 0;
+            font-family: var(--font-sans);
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+        .tagline .typed { color: var(--accent); font-weight: 600; }
+        .tagline .caret {
+            display: inline-block; width: 2px; height: 1em; background: var(--accent);
+            vertical-align: -2px; margin-left: 2px; animation: blink 1s steps(1) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .quick-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .quick-links a {
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 5px 14px;
+            color: var(--text-main);
+            background: var(--card-bg);
+            transition: all 0.2s;
+        }
+        .quick-links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; transform: translateY(-2px); }
+        .quick-links a i { margin-right: 6px; }
+
+        /* ========== 主体 ========== */
+        .content { max-width: 880px; margin: 32px auto 40px auto; padding: 0 20px; }
 
         .announcement {
-            background-color: #f1f8ff;
-            border-left: 4px solid #0366d6;
+            background-color: var(--accent-soft);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 8px 8px 0;
             padding: 1.2rem 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             font-size: 1.05rem;
         }
+
+        /* 【新增】奖项徽章 */
+        .awards { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 1.5rem; }
+        .award {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            line-height: 1.3;
+            color: var(--text-main);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex: 1 1 180px;
+        }
+        .award:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); text-decoration: none; }
+        .award .ico { font-size: 1.3rem; }
+        .award b { display: block; color: var(--primary-color); }
+        .award span { color: var(--text-muted); font-size: 0.78rem; }
 
         h2 {
             font-size: 1.7rem;
             color: var(--primary-color);
-            margin-top: 2.5rem;
+            margin-top: 3rem;
             margin-bottom: 1rem;
-            scroll-margin-top: 80px; 
+            scroll-margin-top: 80px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        h2::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+        /* ========== 【新增】Research 项目卡片 ========== */
+        .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 1.2rem; }
+        .project {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex; flex-direction: column;
+        }
+        .project:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+
+        .project-media {
+            position: relative;
+            aspect-ratio: 16 / 10;
+            background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+            overflow: hidden;
+        }
+        .project-media img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: opacity 0.45s ease, transform 0.6s ease;
+        }
+        /* 悬停时切换到第二张图（例如：方法图 → 结果图） */
+        .project-media img.hover-img { opacity: 0; }
+        .project:hover .project-media img.hover-img { opacity: 1; }
+        .project:hover .project-media img { transform: scale(1.04); }
+        /* 没有图片时显示的图标占位 */
+        .project-media .fallback {
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.6rem; color: var(--accent); opacity: 0.55;
         }
 
-        .news-list {
-            list-style: none;
-            padding: 0;
+        .project-body { padding: 14px 16px 16px; display: flex; flex-direction: column; flex: 1; }
+        .project-body h3 { margin: 0 0 6px; font-size: 1.02rem; color: var(--primary-color); line-height: 1.35; }
+        .project-body p { margin: 0 0 10px; font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; flex: 1; }
+        .project-foot { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        .project-foot .more {
+            margin-left: auto; font-family: var(--font-sans); font-size: 0.8rem; background: none; border: none;
+            color: var(--link-color); cursor: pointer; padding: 0;
         }
 
-        .news-list li {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            text-indent: -1.5rem;
+        .tag {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            white-space: nowrap;
         }
 
+        /* ========== 【新增】Case-study 地图 ========== */
+        .map-wrap {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            margin-top: 1rem;
+        }
+        #map { height: 380px; width: 100%; background: var(--surface); z-index: 1; }
+        .map-hint {
+            font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-muted); margin: 0.4rem 0 0;
+        }
+        .leaflet-popup-content { font-family: var(--font-sans); font-size: 0.85rem; line-height: 1.5; }
+        .leaflet-popup-content b { color: #0f766e; }
+        .leaflet-popup-content button {
+            margin-top: 6px; font-size: 0.78rem; border: 1px solid #0f766e; color: #0f766e; background: #fff;
+            border-radius: 4px; padding: 2px 8px; cursor: pointer;
+        }
+        .leaflet-tooltip.city-label {
+            background: var(--card-bg); color: var(--primary-color); border: 1px solid var(--border);
+            box-shadow: var(--shadow); font-family: var(--font-sans); font-size: 0.75rem; font-weight: 700; padding: 2px 8px;
+        }
+        .leaflet-tooltip.city-label::before { display: none; }
+        .map-reset {
+            width: 34px; height: 34px; border-radius: 4px; border: 2px solid rgba(0,0,0,0.2);
+            background: #fff; color: #333; cursor: pointer; font-size: 0.9rem;
+        }
+        .city-dot {
+            width: 16px; height: 16px; border-radius: 50%;
+            background: #0f766e; border: 3px solid #fff;
+            box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.6);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.55); }
+            70% { box-shadow: 0 0 0 16px rgba(15, 118, 110, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0); }
+        }
+
+        /* ========== 【改版】News 时间线 ========== */
+        .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
+        .timeline::before {
+            content: ""; position: absolute; left: 15px; top: 6px; bottom: 6px; width: 2px; background: var(--border);
+        }
+        .timeline li { position: relative; padding: 0 0 1.2rem 48px; }
+        .timeline .dot {
+            position: absolute; left: 0; top: 0;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--card-bg); border: 2px solid var(--accent);
+            display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+        }
         .news-date {
-            font-family: var(--font-sans);
-            font-weight: 700;
-            color: var(--primary-color);
+            font-family: var(--font-sans); font-weight: 700; color: var(--accent); font-size: 0.85rem; display: block;
         }
 
-        /* 交互功能 2: Abstract 折叠按钮样式 */
-        .abstract-btn {
+        /* ========== 【改版】Publications ========== */
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2rem; }
+        .chip {
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border-radius: 999px;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .chip:hover { border-color: var(--accent); color: var(--accent); }
+        .chip.active { background: var(--accent); border-color: var(--accent); color: var(--bg-color); }
+        .chip .count { opacity: 0.7; margin-left: 4px; }
+
+        .pub-list { list-style: none; padding: 0; margin: 0; }
+        .pub {
+            display: flex; gap: 18px;
+            padding: 16px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card-bg);
+            transition: box-shadow 0.25s, transform 0.25s, opacity 0.3s;
+        }
+        .pub:hover { box-shadow: var(--shadow-hover); }
+        .pub.hidden { display: none; }
+
+        .pub-thumb {
+            flex: 0 0 150px;
+            height: 104px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, var(--accent-soft), var(--surface));
+            border: 1px solid var(--border);
+        }
+        .pub-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .pub:hover .pub-thumb img { transform: scale(1.08); }
+        .pub-thumb .journal {
+            position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-family: var(--font-sans); color: var(--accent); font-weight: 800; font-size: 1.3rem; letter-spacing: 0.04em;
+        }
+        .pub-thumb .journal small { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0; }
+        .pub-thumb .new-badge {
+            position: absolute; top: 6px; left: 6px; background: #ef4444; color: #fff;
+            font-family: var(--font-sans); font-size: 0.65rem; font-weight: 700; border-radius: 4px; padding: 1px 6px;
+        }
+
+        .pub-info { flex: 1; min-width: 0; }
+        .pub-title { font-size: 1.02rem; line-height: 1.45; margin: 0 0 4px; font-weight: 600; }
+        .pub-title a { color: var(--primary-color); }
+        .pub-title a:hover { color: var(--link-color); }
+        .pub-meta { font-size: 0.9rem; color: var(--text-muted); margin: 0 0 8px; }
+        .pub-meta em { color: var(--text-main); }
+        .pub-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+        .pub-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .pub-btn {
             background: none;
             border: 1px solid var(--primary-color);
             color: var(--primary-color);
-            padding: 2px 8px;
-            font-size: 0.8rem;
+            padding: 2px 10px;
+            font-size: 0.78rem;
             border-radius: 4px;
             cursor: pointer;
-            margin-left: 10px;
             transition: all 0.2s;
             font-family: var(--font-sans);
+            display: inline-flex; align-items: center; gap: 5px;
         }
+        .pub-btn:hover { background: var(--primary-color); color: var(--bg-color); text-decoration: none; }
 
-        .abstract-btn:hover {
-            background: var(--primary-color);
-            color: white;
-        }
-
+        /* 摘要：平滑展开 */
         .abstract-content {
-            display: none;
-            background-color: #f9f9f9;
-            border-left: 3px solid var(--link-color);
-            padding: 10px 15px;
-            margin-top: 10px;
-            font-size: 0.95rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.45s ease, margin 0.3s ease;
+            font-size: 0.93rem;
             color: var(--text-muted);
-            text-indent: 0;
         }
-        
-        /* 底部 Footer 与社交图标样式 */
+        .abstract-content.open { margin-top: 10px; }
+        .abstract-content > div {
+            background-color: var(--surface);
+            border-left: 3px solid var(--accent);
+            padding: 10px 15px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        @media (max-width: 600px) {
+            .pub { flex-direction: column; gap: 12px; }
+            .pub-thumb { flex: none; width: 100%; height: 140px; }
+            .identity h1 { font-size: 1.6rem; }
+            #map { height: 300px; }
+        }
+
+        /* ========== 滚动淡入 ========== */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1; transform: none; transition: none; }
+            html { scroll-behavior: auto; }
+            .city-dot, .tagline .caret { animation: none; }
+        }
+
+        /* ========== 回到顶部 + 提示 ========== */
+        #to-top {
+            position: fixed; right: 20px; bottom: 20px; z-index: 900;
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 1px solid var(--border); background: var(--card-bg); color: var(--accent);
+            box-shadow: var(--shadow); cursor: pointer;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+        }
+        #to-top.show { opacity: 1; pointer-events: auto; }
+        #to-top:hover { transform: translateY(-3px); }
+
+        #toast {
+            position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+            background: var(--primary-color); color: var(--bg-color);
+            font-family: var(--font-sans); font-size: 0.85rem;
+            padding: 8px 16px; border-radius: 8px; z-index: 1100;
+            opacity: 0; pointer-events: none; transition: all 0.3s;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ========== Footer ========== */
         footer {
-            text-align: center; /* 让图标和文字居中 */
-            padding: 3rem 0 2rem 0; /* 上下留出空白 */
-            margin-top: 4rem; /* 和正文拉开距离 */
-            border-top: 1px solid #eaeaea; /* 加一条淡淡的分割线 */
+            text-align: center;
+            padding: 3rem 0 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
             background-color: var(--bg-color);
         }
-
-        .social-icons {
-            display: flex;
-            justify-content: center; /* 强制图标居中排列 */
-            gap: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .social-icons a {
-            color: #888888;
-            font-size: 1.8rem;
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        .social-icons a:hover {
-            color: var(--primary-color);
-            transform: scale(1.1);
-        }
-
-        footer p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin: 0;
-            font-family: var(--font-sans);
-        }
-
+        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; }
+        .social-icons a { color: var(--text-muted); font-size: 1.8rem; transition: color 0.3s ease, transform 0.2s ease; }
+        .social-icons a:hover { color: var(--accent); transform: scale(1.12); text-decoration: none; }
+        footer p { font-size: 0.9rem; color: var(--text-muted); margin: 0; font-family: var(--font-sans); }
     </style>
 </head>
 <body>
 
-    <nav>
-        <h1 class="logo" style="margin: 0; font-size: 1.25rem;">Xia Ye</h1>
-        
-        <div class="menu-toggle" id="mobile-menu">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </div>
+    <nav id="navbar">
+        <p class="logo"><a href="#top">Xia Ye</a></p>
 
-        <div class="nav-links" id="nav-links">
-            <a href="#about">About</a>
-            <a href="#research">Research</a>
-            <a href="#news">News</a>
-            <a href="#publications">Publications</a>
-            <a href="https://scholar.google.com/citations?user=klPCmFUAAAAJ&hl=zh-CN" target="_blank">Google Scholar</a>
-            <a href="https://github.com/xiaye-lab" target="_blank">GitHub</a>
+        <div class="nav-right">
+            <div class="nav-links" id="nav-links">
+                <a href="#about" data-zh="关于">About</a>
+                <a href="#research" data-zh="研究">Research</a>
+                <a href="#news" data-zh="动态">News</a>
+                <a href="#publications" data-zh="论文">Publications</a>
+                <a href="https://scholar.google.com/citations?user=klPCmFUAAAAJ&hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a>
+                <a href="https://github.com/xiaye-lab" target="_blank" rel="noopener">GitHub</a>
+            </div>
+            <div class="tools">
+                <button class="tool-btn" id="lang-toggle" title="Switch language / 切换语言">中</button>
+                <button class="tool-btn" id="theme-toggle" title="Toggle dark mode"><i class="fas fa-moon"></i></button>
+                <button class="menu-toggle" id="mobile-menu" aria-label="Menu">
+                    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+                </button>
+            </div>
         </div>
     </nav>
 
+    <div id="top"></div>
     <div class="hero-container">
         <div class="profile-wrapper">
-            <div class="profile-pic"></div>
+            <div class="profile-pic" role="img" aria-label="Xia Ye"></div>
+        </div>
+    </div>
+
+    <!-- 【新增】名字 + 打字机标语 + 快捷按钮 -->
+    <div class="identity">
+        <h1>Xia Ye<span class="cn">夏晔</span></h1>
+        <p class="tagline">
+            <span data-zh="新加坡国立大学 博士生 · 研究方向：">PhD Student @ NUS · Working on </span><span class="typed" id="typed"></span><span class="caret"></span>
+        </p>
+        <div class="quick-links">
+            <a href="https://scholar.google.com/citations?user=klPCmFUAAAAJ&hl=zh-CN" target="_blank" rel="noopener"><i class="fab fa-google-scholar"></i>Scholar</a>
+            <a href="https://github.com/xiaye-lab" target="_blank" rel="noopener"><i class="fab fa-github"></i>GitHub</a>
+            <a href="https://www.linkedin.com/in/ye-xia-91a3992b2/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i>LinkedIn</a>
+            <a href="mailto:ye.xia@u.nus.edu"><i class="fas fa-envelope"></i>Email</a>
+            <!-- CV 按钮：把简历命名为 cv.pdf 上传到仓库根目录即可；没有文件时按钮会自动隐藏 -->
+            <a href="cv.pdf" target="_blank" id="cv-link" style="display:none"><i class="fas fa-file-lines"></i>CV</a>
         </div>
     </div>
 
     <div class="content">
-        
-        <div class="announcement" id="about">
-            I am a PhD student at the <strong>National University of Singapore (NUS)</strong> in the College of Design and Engineering, working within the City Syntax Lab. My research focuses on <strong>urban sustainability, building decarbonization,</strong> and <strong>spatial analytics</strong>. <a href="#research">More details here &raquo;</a>
+
+        <div class="announcement reveal" id="about" data-zh="我是<strong>新加坡国立大学 (NUS)</strong> 设计与工程学院的博士生，就读于 City Syntax Lab。研究聚焦于<strong>城市可持续性、建筑脱碳</strong>与<strong>空间分析</strong>。">
+            I am a PhD student at the <strong>National University of Singapore (NUS)</strong> in the College of Design and Engineering, working within the City Syntax Lab. My research focuses on <strong>urban sustainability, building decarbonization,</strong> and <strong>spatial analytics</strong>.
         </div>
 
-        <p>
+        <!-- 【新增】奖项徽章：点击跳转到原始链接 -->
+        <div class="awards reveal">
+            <a class="award" href="https://www.linkedin.com/feed/update/urn:li:activity:7472482160113774592/" target="_blank" rel="noopener">
+                <span class="ico">🎤</span><div><b>Best Oral Presentation</b><span>Building Simulation 2026</span></div>
+            </a>
+            <a class="award" href="https://www.boeing-sea.com/news/2026/boeing-announces-winners-of-university-innovation-program" target="_blank" rel="noopener">
+                <span class="ico">🚀</span><div><b>Winner, Boeing BUILD</b><span>NUS Enterprise &amp; Boeing · 2026</span></div>
+            </a>
+            <a class="award" href="https://cde.nus.edu.sg/dbe/news/best-poster-award-at-ssc-2025-conference-explainable-ai-for-urban-sustainability-trade-offs-a-singapore-case-study/" target="_blank" rel="noopener">
+                <span class="ico">🏆</span><div><b>Best Poster Award</b><span>SSC 2025</span></div>
+            </a>
+        </div>
+
+        <p class="reveal" data-zh="我希望用数据驱动的方法释放城市数据的潜力，加速高密度城市的能源转型。我结合机器学习（尤其是图神经网络）、大规模地理空间分析与多智能体建模，回应建设零碳、公平城市环境中的科学与实践问题。">
             With a focus on data-driven methodologies, my work aims to unlock the potential of urban data to accelerate the energy transition in high-density cities. I leverage machine learning (specifically Graph Neural Networks), large-scale geospatial analysis, and agent-based modeling to address scientific and practical challenges in creating zero-carbon, equitable urban environments.
         </p>
 
-        <h2 id="research">Research</h2>
-        <p>
-            My research sits at the intersection of the built environment and computational technologies. I am currently developing Graph Neural Network (UrbanGNN) models to analyze spatial spillovers and the trade-offs between Environmental and Societal Performance Indices in Singapore. Additionally, I am designing multi-agent systems using the OpenClaw framework to simulate and manage energy consumption and thermal comfort across the NUS campus. <a href="https://github.com/xiaye-lab">View my code repositories &raquo;</a>
+        <!-- ================= Research ================= -->
+        <h2 id="research" data-zh="研究">Research</h2>
+        <p class="reveal" data-zh="我的研究位于建成环境与计算技术的交叉点。下面是三条主要研究线——鼠标悬停卡片可以看到第二张图，点击“相关论文”会筛选下方的论文列表。">
+            My research sits at the intersection of the built environment and computational technologies. Three threads run through my work — hover over a card to see more, or jump to its related papers.
         </p>
-   
-        <h2 id="news">News</h2>
-        <ul class="news-list">
-            <li>🎤 <span class="news-date">07/2026</span> - Honored to receive the <a href="https://www.linkedin.com/feed/update/urn:li:activity:7472482160113774592/" target="_blank"><em>Best Oral Presentation</em> at The International Conference of Building and Simulation 2026</a>.</li>
-            <li>🚀 <span class="news-date">05/2026</span> - Awarded <a href="https://www.boeing-sea.com/news/2026/boeing-announces-winners-of-university-innovation-program" target="_blank"><em>Winner, Boeing BUILD Program</em> by NUS Enterprise & Boeing</a>.</li>
-            <li>🏆 <span class="news-date">12/2025</span> - Honored to receive the <a href="https://cde.nus.edu.sg/dbe/news/best-poster-award-at-ssc-2025-conference-explainable-ai-for-urban-sustainability-trade-offs-a-singapore-case-study/" target="_blank"><em>Best Poster Award</em> at the Singapore Scientific Conference (SSC)</a>.</li>
-            <li>🥈 <span class="news-date">12/2025</span> - Awarded <a href="https://www.linkedin.com/feed/update/urn:li:activity:7369656064218128385/" target="_blank"><em>Runner-up</em> in the Suzhou Entrepreneurship Competition</a>.</li>
+
+        <!--
+            图片说明：每张卡片有两张图（默认图 + 悬停图），放到 images/ 文件夹即可，建议 800x500。
+            文件不存在时会自动显示图标占位，不会出现裂图。
+        -->
+        <div class="projects">
+            <article class="project reveal">
+                <div class="project-media">
+                    <span class="fallback"><i class="fas fa-diagram-project"></i></span>
+                    <img src="images/research-gnn-1.png" alt="UrbanGNN framework" loading="lazy" onerror="this.remove()">
+                    <img class="hover-img" src="images/research-gnn-2.png" alt="UrbanGNN results map" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="project-body">
+                    <h3 data-zh="UrbanGNN：城市形态与可持续性权衡">UrbanGNN: Morphology &amp; Sustainability Trade-offs</h3>
+                    <p data-zh="用图神经网络与可解释 AI 分析新加坡城市形态的空间溢出效应，以及环境（ECSI）与社会经济（SEVI）表现之间的权衡与协同。">Graph Neural Networks and explainable AI to analyze spatial spillovers and the trade-offs between environmental (ECSI) and socio-economic (SEVI) performance in Singapore.</p>
+                    <div class="project-foot">
+                        <span class="tag">GNN</span><span class="tag">XAI</span><span class="tag">Singapore</span>
+                        <button class="more" data-filter="gnn" data-zh="相关论文 →">Related papers →</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project reveal">
+                <div class="project-media">
+                    <span class="fallback"><i class="fas fa-city"></i></span>
+                    <img src="images/research-ubem-1.png" alt="Urban building energy model" loading="lazy" onerror="this.remove()">
+                    <img class="hover-img" src="images/research-ubem-2.png" alt="Co-benefits map" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="project-body">
+                    <h3 data-zh="建筑脱碳的协同效益">Co-benefits of Building Decarbonization</h3>
+                    <p data-zh="结合城市建筑能耗模型（UBEM）与政策情景，量化建筑脱碳在碳排放之外带来的健康、经济与社会公平效益，并以新加坡与香港作比较。">Urban building energy modeling (UBEM) and policy scenarios to quantify health, economic and equity co-benefits beyond carbon — comparing Singapore and Hong Kong.</p>
+                    <div class="project-foot">
+                        <span class="tag">UBEM</span><span class="tag">EnergyPlus</span><span class="tag">SG · HK</span>
+                        <button class="more" data-filter="decarb" data-zh="相关论文 →">Related papers →</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project reveal">
+                <div class="project-media">
+                    <span class="fallback"><i class="fas fa-robot"></i></span>
+                    <img src="images/research-agents-1.png" alt="Multi-agent campus system" loading="lazy" onerror="this.remove()">
+                    <img class="hover-img" src="images/research-agents-2.png" alt="Campus energy dashboard" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="project-body">
+                    <h3 data-zh="NUS 校园多智能体能源管理">Multi-agent Campus Energy Management</h3>
+                    <p data-zh="基于 OpenClaw 框架设计多智能体系统，模拟并管理 NUS 校园的能耗与热舒适。">Designing multi-agent systems with the OpenClaw framework to simulate and manage energy consumption and thermal comfort across the NUS campus.</p>
+                    <div class="project-foot">
+                        <span class="tag">Multi-agent</span><span class="tag">Thermal comfort</span><span class="tag">NUS</span>
+                        <a class="more" href="https://github.com/xiaye-lab" target="_blank" rel="noopener" data-zh="代码 →">Code →</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- 【新增】研究案例地图：点击城市会筛选论文 -->
+        <h3 style="margin-top:2.2rem; color:var(--primary-color);" data-zh="研究案例分布">Where my case studies are</h3>
+        <div class="map-wrap reveal"><div id="map"></div></div>
+        <p class="map-hint" data-zh="点击地图上的城市，查看在该城市开展的研究。">Click a city to see the studies conducted there.</p>
+
+        <!-- ================= News ================= -->
+        <h2 id="news" data-zh="动态">News</h2>
+        <ul class="timeline">
+            <li class="reveal">
+                <span class="dot">🎤</span>
+                <span class="news-date">07/2026</span>
+                <span data-zh='荣获 <a href="https://www.linkedin.com/feed/update/urn:li:activity:7472482160113774592/" target="_blank" rel="noopener"><em>最佳口头报告奖</em>（International Conference of Building and Simulation 2026）</a>。'>Honored to receive the <a href="https://www.linkedin.com/feed/update/urn:li:activity:7472482160113774592/" target="_blank" rel="noopener"><em>Best Oral Presentation</em> at The International Conference of Building and Simulation 2026</a>.</span>
+            </li>
+            <li class="reveal">
+                <span class="dot">🚀</span>
+                <span class="news-date">05/2026</span>
+                <span data-zh='获得 <a href="https://www.boeing-sea.com/news/2026/boeing-announces-winners-of-university-innovation-program" target="_blank" rel="noopener"><em>Boeing BUILD Program 优胜</em>（NUS Enterprise &amp; Boeing）</a>。'>Awarded <a href="https://www.boeing-sea.com/news/2026/boeing-announces-winners-of-university-innovation-program" target="_blank" rel="noopener"><em>Winner, Boeing BUILD Program</em> by NUS Enterprise &amp; Boeing</a>.</span>
+            </li>
+            <li class="reveal">
+                <span class="dot">🏆</span>
+                <span class="news-date">12/2025</span>
+                <span data-zh='荣获 <a href="https://cde.nus.edu.sg/dbe/news/best-poster-award-at-ssc-2025-conference-explainable-ai-for-urban-sustainability-trade-offs-a-singapore-case-study/" target="_blank" rel="noopener"><em>最佳海报奖</em>（Singapore Scientific Conference, SSC）</a>。'>Honored to receive the <a href="https://cde.nus.edu.sg/dbe/news/best-poster-award-at-ssc-2025-conference-explainable-ai-for-urban-sustainability-trade-offs-a-singapore-case-study/" target="_blank" rel="noopener"><em>Best Poster Award</em> at the Singapore Scientific Conference (SSC)</a>.</span>
+            </li>
+            <li class="reveal">
+                <span class="dot">🥈</span>
+                <span class="news-date">12/2025</span>
+                <span data-zh='获得 <a href="https://www.linkedin.com/feed/update/urn:li:activity:7369656064218128385/" target="_blank" rel="noopener"><em>苏州创业大赛亚军</em></a>。'>Awarded <a href="https://www.linkedin.com/feed/update/urn:li:activity:7369656064218128385/" target="_blank" rel="noopener"><em>Runner-up</em> in the Suzhou Entrepreneurship Competition</a>.</span>
+            </li>
         </ul>
 
-        <h2 id="publications">Publications</h2>
-        <ul style="padding-left: 1.2rem;">
+        <!-- ================= Publications ================= -->
+        <h2 id="publications" data-zh="论文">Publications</h2>
 
-            <!-- 最新论文 (DOI: 10.1016/j.scs.2026.107774) -->
-            <li style="margin-bottom: 1.5rem;">
-                <strong>Xia, Y.</strong>, et al. (2026). <a href="https://doi.org/10.1016/j.scs.2026.107774" target="_blank"><em>[在这里填入这篇论文的标题]</em></a>. Sustainable Cities and Society.
-                <button class="abstract-btn" onclick="toggleAbstract('abs5')">Abstract</button>
-                <div id="abs5" class="abstract-content">
-                    Decarbonizing buildings is critical for urban sustainability and climate mitigation. However, mitigation strategies are frequently evaluated solely through carbon metrics, leaving broader co-benefits insufficiently synthesized. This (narrow) framing obscures the full value proposition of building decarbonization interventions and impedes their practical adoption. This systematic review analyzes a decade of literature (January 2016 to December 2025), screening 2,183 records from Web of Science, Scopus, and PubMed. We present a framework linking supply- and demand-side decarbonization strategies to 18 distinct co-benefits across four domains, assessed at the building, technology, and policy levels. Geographic disparities are pronounced—China and the United States account for nearly half of all studies, while the Global South is underrepresented. Environmental (60.0%) and economic (61.2%) co-benefits are most frequently reported, whereas health (34.1%) and societal impacts (24.7%) appear less often. Quantification methods vary by level of analysis. Building-level studies (n=46) rely primarily on physics-based simulations and report 1.63 co-benefits per study on average. Policy- and technology-level studies (n=39) typically apply integrated energy–economy–climate models, with 82.1% reporting at least two co-benefit domains, averaging 2.49 co-benefits per study—likely reflecting the structural capacity of integrated frameworks to generate multi-domain outputs. Reductions in outdoor air pollution are most frequently co-reported alongside reduced mortality and lower healthcare expenditures, suggesting a strong thematic association across environmental, health, and economic outcomes. Overall, the literature reports substantial co-benefits from net-zero building strategies, which are also a pathway to improve public health, economic resilience, and social equity.
+        <!-- 筛选标签：data-filter 对应每篇论文的 data-tags -->
+        <div class="chips" id="chips">
+            <button class="chip active" data-filter="all" data-zh="全部">All</button>
+            <button class="chip" data-filter="gnn">GNN / XAI</button>
+            <button class="chip" data-filter="thermal" data-zh="热舒适">Thermal comfort</button>
+            <button class="chip" data-filter="decarb" data-zh="建筑脱碳">Decarbonization</button>
+            <button class="chip" data-filter="singapore" data-zh="新加坡">Singapore</button>
+            <button class="chip" data-filter="hongkong" data-zh="香港">Hong Kong</button>
+            <button class="chip" data-filter="shenzhen" data-zh="深圳">Shenzhen</button>
+        </div>
+
+        <!--
+            新增论文时：复制一个 <li class="pub"> 改内容即可。
+            data-tags  ：筛选用（用空格分隔）
+            data-doi   ：BibTeX 按钮会用它从 doi.org 实时获取引用
+            缩略图     ：images/pub-文件名.png，不存在时显示期刊缩写
+        -->
+        <ul class="pub-list" id="pub-list">
+
+            <li class="pub reveal" data-tags="decarb" data-doi="10.1016/j.scs.2026.107774">
+                <div class="pub-thumb">
+                    <span class="journal">SCS<small>2026</small></span>
+                    <img src="images/pub-scs-107774.png" alt="" loading="lazy" onerror="this.remove()">
+                    <span class="new-badge">NEW</span>
+                </div>
+                <div class="pub-info">
+                    <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2026.107774" target="_blank" rel="noopener">Beyond carbon: a systematic review of building decarbonization co-benefits and quantification methods</a></p>
+                    <p class="pub-meta"><strong>Ye Xia</strong>, Tao Wang, Yu Qian Ang · <em>Sustainable Cities and Society</em>, 149, 107774 (2026)</p>
+                    <div class="pub-tags"><span class="tag">Systematic review</span><span class="tag">Co-benefits</span><span class="tag">Health</span></div>
+                    <div class="pub-actions">
+                        <button class="pub-btn abs-btn"><i class="fas fa-align-left"></i>Abstract</button>
+                        <a class="pub-btn" href="https://doi.org/10.1016/j.scs.2026.107774" target="_blank" rel="noopener"><i class="fas fa-link"></i>DOI</a>
+                        <button class="pub-btn bib-btn"><i class="fas fa-quote-right"></i>BibTeX</button>
+                    </div>
+                    <div class="abstract-content"><div>
+                        Decarbonizing buildings is critical for urban sustainability and climate mitigation. However, mitigation strategies are frequently evaluated solely through carbon metrics, leaving broader co-benefits insufficiently synthesized. This (narrow) framing obscures the full value proposition of building decarbonization interventions and impedes their practical adoption. This systematic review analyzes a decade of literature (January 2016 to December 2025), screening 2,183 records from Web of Science, Scopus, and PubMed. We present a framework linking supply- and demand-side decarbonization strategies to 18 distinct co-benefits across four domains, assessed at the building, technology, and policy levels. Geographic disparities are pronounced—China and the United States account for nearly half of all studies, while the Global South is underrepresented. Environmental (60.0%) and economic (61.2%) co-benefits are most frequently reported, whereas health (34.1%) and societal impacts (24.7%) appear less often. Quantification methods vary by level of analysis. Building-level studies (n=46) rely primarily on physics-based simulations and report 1.63 co-benefits per study on average. Policy- and technology-level studies (n=39) typically apply integrated energy–economy–climate models, with 82.1% reporting at least two co-benefit domains, averaging 2.49 co-benefits per study—likely reflecting the structural capacity of integrated frameworks to generate multi-domain outputs. Reductions in outdoor air pollution are most frequently co-reported alongside reduced mortality and lower healthcare expenditures, suggesting a strong thematic association across environmental, health, and economic outcomes. Overall, the literature reports substantial co-benefits from net-zero building strategies, which are also a pathway to improve public health, economic resilience, and social equity.
+                    </div></div>
                 </div>
             </li>
 
-            <li style="margin-bottom: 1.5rem;">
-                <strong>Xia, Y.</strong>, et al. (2026). <a href="https://doi.org/10.1016/j.scs.2026.107687" target="_blank"><em>Urban morphology as a driver of urban sustainability trade-offs and synergies: an explainable graph neural network analysis of Singapore</em></a>. Sustainable Cities and Society.
-                <button class="abstract-btn" onclick="toggleAbstract('abs4')">Abstract</button>
-                <div id="abs4" class="abstract-content">
-                    Urban development in high-density cities must balance economic growth, environmental performance, and social well-being, yet how urban form mediates the coupling between these dimensions remains poorly quantified and seldom interpretable. This study introduces a data-driven framework for diagnosing and optimizing the environmental and socio-economic performance of dense urban environments. We adopt the CRITIC-Entropy method to construct two composite metrics—the Environmental Cost and Stress Index (ECSI) and the Socio-Economic Vitality Index (SEVI)—and apply them to Singapore as a high-density urban testbed. Using 15 key urban morphological parameters, we train a Graph Neural Network (GNN) and employ explainable AI (XAI), specifically GNNExplainer coupled with Partial Dependence Plots (PDP), to uncover the non-linear and spatially embedded relationships between urban morphology and these (eco-socio-economic) performance outcomes. The framework identifies four Pareto-frontier archetypes that characterize distinct morphology–performance pathways. Distance to the central business district, building coverage ratio, and greenery coverage ratio are the most dominant drivers of environmental cost, while building-height diversity, land-cover diversity, and sky view factor most strongly shape socio-economic vitality. Across the 15 indicators, most relationships are synergistic or mixed, with genuine trade-offs concentrated in a small set of dominant drivers, notably building coverage ratio and distance to the central business district. Central districts generally exhibit the strongest spillover benefits for both dimensions (ECSI and SEVI) relative to peripheral areas. These results provide interpretable and actionable benchmarks for site-specific retrofitting and targeted urban regeneration in high-density cities.
+            <li class="pub reveal" data-tags="gnn singapore" data-doi="10.1016/j.scs.2026.107687">
+                <div class="pub-thumb">
+                    <span class="journal">SCS<small>2026</small></span>
+                    <img src="images/pub-scs-107687.png" alt="" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="pub-info">
+                    <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2026.107687" target="_blank" rel="noopener">Urban morphology as a driver of urban sustainability trade-offs and synergies: an explainable graph neural network analysis of Singapore</a></p>
+                    <p class="pub-meta"><strong>Xia, Y.</strong>, et al. · <em>Sustainable Cities and Society</em> (2026)</p>
+                    <div class="pub-tags"><span class="tag">GNN</span><span class="tag">GNNExplainer</span><span class="tag">Singapore</span></div>
+                    <div class="pub-actions">
+                        <button class="pub-btn abs-btn"><i class="fas fa-align-left"></i>Abstract</button>
+                        <a class="pub-btn" href="https://doi.org/10.1016/j.scs.2026.107687" target="_blank" rel="noopener"><i class="fas fa-link"></i>DOI</a>
+                        <button class="pub-btn bib-btn"><i class="fas fa-quote-right"></i>BibTeX</button>
+                    </div>
+                    <div class="abstract-content"><div>
+                        Urban development in high-density cities must balance economic growth, environmental performance, and social well-being, yet how urban form mediates the coupling between these dimensions remains poorly quantified and seldom interpretable. This study introduces a data-driven framework for diagnosing and optimizing the environmental and socio-economic performance of dense urban environments. We adopt the CRITIC-Entropy method to construct two composite metrics—the Environmental Cost and Stress Index (ECSI) and the Socio-Economic Vitality Index (SEVI)—and apply them to Singapore as a high-density urban testbed. Using 15 key urban morphological parameters, we train a Graph Neural Network (GNN) and employ explainable AI (XAI), specifically GNNExplainer coupled with Partial Dependence Plots (PDP), to uncover the non-linear and spatially embedded relationships between urban morphology and these (eco-socio-economic) performance outcomes. The framework identifies four Pareto-frontier archetypes that characterize distinct morphology–performance pathways. Distance to the central business district, building coverage ratio, and greenery coverage ratio are the most dominant drivers of environmental cost, while building-height diversity, land-cover diversity, and sky view factor most strongly shape socio-economic vitality. Across the 15 indicators, most relationships are synergistic or mixed, with genuine trade-offs concentrated in a small set of dominant drivers, notably building coverage ratio and distance to the central business district. Central districts generally exhibit the strongest spillover benefits for both dimensions (ECSI and SEVI) relative to peripheral areas. These results provide interpretable and actionable benchmarks for site-specific retrofitting and targeted urban regeneration in high-density cities.
+                    </div></div>
                 </div>
             </li>
-            
-            <li style="margin-bottom: 1.5rem;">
-                <strong>Xia, Y.</strong>, et al. (2026). <a href="https://doi.org/10.1016/j.scs.2026.107383" target="_blank"><em>Balancing urban environmental and societal performance in high-density cities: Morphological trade-offs and optimization strategies in Shenzhen and Hong Kong</em></a>. Sustainable Cities and Society.
-                <button class="abstract-btn" onclick="toggleAbstract('abs3')">Abstract</button>
-                <div id="abs3" class="abstract-content">
-                    Achieving both environmental sustainability and societal prosperity in high-density cities remains a major planning challenge because the same urban form can improve one dimension while worsening the other. This study examines how urban form and land use shape these trade-offs in Shenzhen and Hong Kong, two compact but developmentally distinct cities in southern China. Using a 500 m grid, we measure environmental performance (EPI) from land surface temperature and carbon dioxide emissions, and societal performance (SPI) from night-time light intensity and population density. We then combine XGBoost and SHAP to identify the morphological features that most strongly influence EPI, SPI, and their combined eco-societal performance (ESPI). Three findings emerge. First, neighborhood-scale morphology plays a more consistent role than purely on-site form in shaping both environmental and societal performance, indicating that a block’s outcomes are strongly conditioned by the urban fabric in which it is embedded. Second, the dominant morphological constraint differs across the two cities. In Shenzhen, surrounding sky openness and building enclosure exert the strongest aggregate influence, whereas in Hong Kong, floor area ratio remains the decisive net driver, suggesting that the two cities require different morphological priorities for balancing environmental and societal goals. Third, Pareto-front analysis identifies mid-rise, mid-density blocks as the most reliably balanced typology, and counterfactual simulations on selected underperforming sites show that targeted increases in surrounding greenery and calibrated height adjustments can improve SPI by as much as 94% or EPI by up to 45% without necessarily sacrificing the other dimension. These findings show that improving sustainability in compact cities requires city-specific, neighborhood-scale interventions rather than one-size-fits-all densification or greening strategies. By linking morphological trade-offs with optimization-oriented planning guidance, this study provides an interpretable framework for identifying renewal priorities and reconciling environmental and societal objectives in high-density urban settings.
+
+            <li class="pub reveal" data-tags="gnn hongkong shenzhen" data-doi="10.1016/j.scs.2026.107383">
+                <div class="pub-thumb">
+                    <span class="journal">SCS<small>2026</small></span>
+                    <img src="images/pub-scs-107383.png" alt="" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="pub-info">
+                    <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2026.107383" target="_blank" rel="noopener">Balancing urban environmental and societal performance in high-density cities: Morphological trade-offs and optimization strategies in Shenzhen and Hong Kong</a></p>
+                    <p class="pub-meta"><strong>Xia, Y.</strong>, et al. · <em>Sustainable Cities and Society</em> (2026)</p>
+                    <div class="pub-tags"><span class="tag">XGBoost + SHAP</span><span class="tag">Pareto</span><span class="tag">Shenzhen · Hong Kong</span></div>
+                    <div class="pub-actions">
+                        <button class="pub-btn abs-btn"><i class="fas fa-align-left"></i>Abstract</button>
+                        <a class="pub-btn" href="https://doi.org/10.1016/j.scs.2026.107383" target="_blank" rel="noopener"><i class="fas fa-link"></i>DOI</a>
+                        <button class="pub-btn bib-btn"><i class="fas fa-quote-right"></i>BibTeX</button>
+                    </div>
+                    <div class="abstract-content"><div>
+                        Achieving both environmental sustainability and societal prosperity in high-density cities remains a major planning challenge because the same urban form can improve one dimension while worsening the other. This study examines how urban form and land use shape these trade-offs in Shenzhen and Hong Kong, two compact but developmentally distinct cities in southern China. Using a 500 m grid, we measure environmental performance (EPI) from land surface temperature and carbon dioxide emissions, and societal performance (SPI) from night-time light intensity and population density. We then combine XGBoost and SHAP to identify the morphological features that most strongly influence EPI, SPI, and their combined eco-societal performance (ESPI). Three findings emerge. First, neighborhood-scale morphology plays a more consistent role than purely on-site form in shaping both environmental and societal performance, indicating that a block’s outcomes are strongly conditioned by the urban fabric in which it is embedded. Second, the dominant morphological constraint differs across the two cities. In Shenzhen, surrounding sky openness and building enclosure exert the strongest aggregate influence, whereas in Hong Kong, floor area ratio remains the decisive net driver, suggesting that the two cities require different morphological priorities for balancing environmental and societal goals. Third, Pareto-front analysis identifies mid-rise, mid-density blocks as the most reliably balanced typology, and counterfactual simulations on selected underperforming sites show that targeted increases in surrounding greenery and calibrated height adjustments can improve SPI by as much as 94% or EPI by up to 45% without necessarily sacrificing the other dimension. These findings show that improving sustainability in compact cities requires city-specific, neighborhood-scale interventions rather than one-size-fits-all densification or greening strategies. By linking morphological trade-offs with optimization-oriented planning guidance, this study provides an interpretable framework for identifying renewal priorities and reconciling environmental and societal objectives in high-density urban settings.
+                    </div></div>
                 </div>
             </li>
-            
-            <li style="margin-bottom: 1.5rem;">
-                <strong>Xia, Y.</strong>, et al. (2025). <a href="https://www.sciencedirect.com/science/article/abs/pii/S2210670725006079" target="_blank"><em>The optimal buffer for urban features to impact outdoor thermal comfort</em></a>. Sustainable Cities and Society.
-                <button class="abstract-btn" onclick="toggleAbstract('abs1')">Abstract</button>
-                <div id="abs1" class="abstract-content">
-                    This paper aims to answer one question: Within which buffer, and in what ways, do urban features impact outdoor thermal comfort (OTC) across diverse urban settings most effectively? To address this question, the research adopts a buffer-dependent workflow consisting of five steps: (1) Cooler Area Searching; (2) OTC Simulation; (3) Cross-scale Validation; (4) Cooler Area Identification; and (5) Space Design Analysis. At the methodology's core is a series of machine learning tools (e.g., Bayesian-optimized CatBoost models and Shapley Additive exPlanations) used to identify the optimal buffer and interpret the urban features that matter. The results showed that an optimal buffer range of 30 to 50 m accurately captures the thermal impacts of urban features across eight typical local climate zones (LCZs). Notably, urban features’ critical impact on OTC was highlighted, including percentage of view (PV), orientation of view (OV), average height index (AHI), and vegetation coverage (VE). For the first time, this research articulates the optimal buffer for urban features to maximize OTC in different LCZs. The findings provide buffer-sensitive microclimates interventions and content-specific strategies for urban designers and policymakers to address the rampant threat of heat waves and foster sustainable development.
+
+            <li class="pub reveal" data-tags="thermal hongkong" data-doi="10.1016/j.scs.2025.106733">
+                <div class="pub-thumb">
+                    <span class="journal">SCS<small>2025</small></span>
+                    <img src="images/pub-scs-106733.png" alt="" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="pub-info">
+                    <p class="pub-title"><a href="https://doi.org/10.1016/j.scs.2025.106733" target="_blank" rel="noopener">The optimal buffer for urban features to impact outdoor thermal comfort</a></p>
+                    <p class="pub-meta"><strong>Ye Xia</strong>, Weisheng Lu, Ziyu Peng, Jianlei Niu · <em>Sustainable Cities and Society</em>, 131, 106733 (2025)</p>
+                    <div class="pub-tags"><span class="tag">CatBoost + SHAP</span><span class="tag">LCZ</span><span class="tag">Hong Kong</span></div>
+                    <div class="pub-actions">
+                        <button class="pub-btn abs-btn"><i class="fas fa-align-left"></i>Abstract</button>
+                        <a class="pub-btn" href="https://doi.org/10.1016/j.scs.2025.106733" target="_blank" rel="noopener"><i class="fas fa-link"></i>DOI</a>
+                        <button class="pub-btn bib-btn"><i class="fas fa-quote-right"></i>BibTeX</button>
+                    </div>
+                    <div class="abstract-content"><div>
+                        This paper aims to answer one question: Within which buffer, and in what ways, do urban features impact outdoor thermal comfort (OTC) across diverse urban settings most effectively? To address this question, the research adopts a buffer-dependent workflow consisting of five steps: (1) Cooler Area Searching; (2) OTC Simulation; (3) Cross-scale Validation; (4) Cooler Area Identification; and (5) Space Design Analysis. At the methodology's core is a series of machine learning tools (e.g., Bayesian-optimized CatBoost models and Shapley Additive exPlanations) used to identify the optimal buffer and interpret the urban features that matter. The results showed that an optimal buffer range of 30 to 50 m accurately captures the thermal impacts of urban features across eight typical local climate zones (LCZs). Notably, urban features’ critical impact on OTC was highlighted, including percentage of view (PV), orientation of view (OV), average height index (AHI), and vegetation coverage (VE). For the first time, this research articulates the optimal buffer for urban features to maximize OTC in different LCZs. The findings provide buffer-sensitive microclimates interventions and content-specific strategies for urban designers and policymakers to address the rampant threat of heat waves and foster sustainable development.
+                    </div></div>
                 </div>
             </li>
-            
-            <li style="margin-bottom: 1.5rem;">
-                <strong>Xia, Y.</strong>, et al. (2025). <a href="https://www.sciencedirect.com/science/article/pii/S0378778825001811" target="_blank"><em>Understanding the impacts of space design on local outdoor thermal comfort: An approach combining DepthmapX and XGBoost</em></a>. Energy and Buildings.
-                <button class="abstract-btn" onclick="toggleAbstract('abs2')">Abstract</button>
-                <div id="abs2" class="abstract-content">
-                    Researchers and designers alike are keen to explore proper space designs to alleviate the heat waves. A niche research area of this type focuses on the smaller scale, local communities to achieve the so-called ‘cool spots’ for residents. However, despite the momentum gained so far, it remains unclear what the key design elements are (e.g., space orientation, aspect ratio, or building density) and how they interact with each other in impacting outdoor thermal comfort (OTC), particularly in some complex, vertical ‘spots’. This research aims to provide an improved understanding of cool spot reasoning by proposing a new paradigm to engage DepthmapX (an analytic tool for urban spatial configuration), XGBoost (a machine learning tool), and on-site verification. By implementing the paradigm on a university campus in Hong Kong for the case study, it was discovered that Percentage of View (PV), Average Height Index (AHI), and Connectivity (CON) are the three most influential factors leading to the formation of a ‘cool spot’. DepthmapX can not only help quantify space designs but also help translate the indexes back to real-life space design options. The XGBoost can help better interpret the pathway from different space design indexes to different OTC but more explainable causal relationships are desired. This research advanced our understanding of the impacts of different space designs on OTC and provided references to designers in achieving OTC in smaller--scale, local communities. It also opens a new avenue to understand the causal relationships in a more detailed and explainable fashion.
+
+            <li class="pub reveal" data-tags="thermal hongkong" data-doi="10.1016/j.enbuild.2025.115451">
+                <div class="pub-thumb">
+                    <span class="journal">E&amp;B<small>2025</small></span>
+                    <img src="images/pub-enb-115451.png" alt="" loading="lazy" onerror="this.remove()">
+                </div>
+                <div class="pub-info">
+                    <p class="pub-title"><a href="https://doi.org/10.1016/j.enbuild.2025.115451" target="_blank" rel="noopener">Understanding the impacts of space design on local outdoor thermal comfort: An approach combining DepthmapX and XGBoost</a></p>
+                    <p class="pub-meta"><strong>Ye Xia</strong>, Weisheng Lu, Ziyu Peng, Jinfeng Lou, Jianxiang Huang, Jianlei Niu · <em>Energy and Buildings</em>, 332, 115451 (2025)</p>
+                    <div class="pub-tags"><span class="tag">Space syntax</span><span class="tag">XGBoost</span><span class="tag">Hong Kong</span></div>
+                    <div class="pub-actions">
+                        <button class="pub-btn abs-btn"><i class="fas fa-align-left"></i>Abstract</button>
+                        <a class="pub-btn" href="https://doi.org/10.1016/j.enbuild.2025.115451" target="_blank" rel="noopener"><i class="fas fa-link"></i>DOI</a>
+                        <button class="pub-btn bib-btn"><i class="fas fa-quote-right"></i>BibTeX</button>
+                    </div>
+                    <div class="abstract-content"><div>
+                        Researchers and designers alike are keen to explore proper space designs to alleviate the heat waves. A niche research area of this type focuses on the smaller scale, local communities to achieve the so-called ‘cool spots’ for residents. However, despite the momentum gained so far, it remains unclear what the key design elements are (e.g., space orientation, aspect ratio, or building density) and how they interact with each other in impacting outdoor thermal comfort (OTC), particularly in some complex, vertical ‘spots’. This research aims to provide an improved understanding of cool spot reasoning by proposing a new paradigm to engage DepthmapX (an analytic tool for urban spatial configuration), XGBoost (a machine learning tool), and on-site verification. By implementing the paradigm on a university campus in Hong Kong for the case study, it was discovered that Percentage of View (PV), Average Height Index (AHI), and Connectivity (CON) are the three most influential factors leading to the formation of a ‘cool spot’. DepthmapX can not only help quantify space designs but also help translate the indexes back to real-life space design options. The XGBoost can help better interpret the pathway from different space design indexes to different OTC but more explainable causal relationships are desired. This research advanced our understanding of the impacts of different space designs on OTC and provided references to designers in achieving OTC in smaller--scale, local communities. It also opens a new avenue to understand the causal relationships in a more detailed and explainable fashion.
+                    </div></div>
                 </div>
             </li>
         </ul>
 
-    </div> <footer>
+    </div>
+
+    <footer>
         <div class="social-icons">
-            <a href="https://github.com/xiaye-lab" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/ye-xia-91a3992b2/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="https://scholar.google.com/citations?user=klPCmFUAAAAJ&hl=zh-CN" target="_blank" title="Google Scholar"><i class="fab fa-google-scholar"></i></a>
+            <a href="https://github.com/xiaye-lab" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/ye-xia-91a3992b2/" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://scholar.google.com/citations?user=klPCmFUAAAAJ&hl=zh-CN" target="_blank" rel="noopener" title="Google Scholar"><i class="fab fa-google-scholar"></i></a>
             <a href="mailto:ye.xia@u.nus.edu" title="Email"><i class="fas fa-envelope"></i></a>
         </div>
         <p>© 2026 Xia Ye. All rights reserved.</p>
     </footer>
 
+    <button id="to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+    <div id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
     <script>
-        // 移动端菜单控制
-        const mobileMenu = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
+        /* ---------- 工具函数 ---------- */
+        const $ = (s, el = document) => el.querySelector(s);
+        const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+        let lang = 'en';
 
-        mobileMenu.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        const links = document.querySelectorAll('.nav-links a');
-        links.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // 交互功能 2: 摘要展开/收起控制
-        function toggleAbstract(id) {
-            const element = document.getElementById(id);
-            if (element.style.display === "block") {
-                element.style.display = "none";
-            } else {
-                element.style.display = "block";
-            }
+        function toast(msg) {
+            const t = $('#toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 2200);
         }
 
-        // 交互功能 3: 导航栏滚动阴影
+        /* ---------- 移动端菜单 ---------- */
+        const navLinks = $('#nav-links');
+        $('#mobile-menu').addEventListener('click', () => navLinks.classList.toggle('open'));
+        $$('#nav-links a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+        /* ---------- 导航阴影 + 回到顶部 ---------- */
+        const nav = $('#navbar'), toTop = $('#to-top');
         window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 10) {
-                nav.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
-            } else {
-                nav.style.boxShadow = 'none';
+            nav.classList.toggle('scrolled', window.scrollY > 10);
+            toTop.classList.toggle('show', window.scrollY > 600);
+        }, { passive: true });
+        toTop.addEventListener('click', () => window.scrollTo({ top: 0 }));
+
+        /* ---------- 滚动高亮当前章节 ---------- */
+        const sections = ['about', 'research', 'news', 'publications'].map(id => document.getElementById(id));
+        const spy = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    $$('#nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+                }
+            });
+        }, { rootMargin: '-40% 0px -55% 0px' });
+        sections.forEach(s => s && spy.observe(s));
+
+        /* ---------- 滚动淡入 ---------- */
+        const revealer = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealer.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        $$('.reveal').forEach(el => revealer.observe(el));
+
+        /* ---------- 打字机标语 ---------- */
+        const phrases = {
+            en: ['urban sustainability', 'building decarbonization', 'graph neural networks', 'explainable AI for cities'],
+            zh: ['城市可持续性', '建筑脱碳', '图神经网络', '城市可解释 AI']
+        };
+        (function typeLoop() {
+            const el = $('#typed');
+            const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let i = 0, j = 0, deleting = false;
+            function tick() {
+                const list = phrases[lang];
+                const word = list[i % list.length];
+                if (reduce) { el.textContent = list[0]; return setTimeout(tick, 1000); }
+                el.textContent = word.slice(0, j);
+                if (!deleting && j < word.length) { j++; setTimeout(tick, 70); }
+                else if (!deleting) { deleting = true; setTimeout(tick, 1600); }
+                else if (j > 0) { j--; setTimeout(tick, 35); }
+                else { deleting = false; i++; setTimeout(tick, 300); }
             }
+            tick();
+        })();
+
+        /* ---------- 深色模式 ---------- */
+        function isDark() {
+            const t = document.documentElement.getAttribute('data-theme');
+            if (t) return t === 'dark';
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        function updateThemeIcon() {
+            $('#theme-toggle').innerHTML = isDark() ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        }
+        $('#theme-toggle').addEventListener('click', () => {
+            const next = isDark() ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            try { localStorage.setItem('theme', next); } catch (e) {}
+            updateThemeIcon();
+            setMapTiles();
         });
+        updateThemeIcon();
+
+        /* ---------- 中英文切换 ---------- */
+        // 有 data-zh 属性的元素会在两种语言间切换；论文标题和摘要保持英文
+        $$('[data-zh]').forEach(el => el.dataset.en = el.innerHTML);
+        function setLang(l) {
+            lang = l;
+            document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+            $$('[data-zh]').forEach(el => el.innerHTML = l === 'zh' ? el.dataset.zh : el.dataset.en);
+            $('#lang-toggle').textContent = l === 'zh' ? 'EN' : '中';
+            updateChipCounts();
+            if (window.updateMapLabels) window.updateMapLabels();
+            try { localStorage.setItem('lang', l); } catch (e) {}
+        }
+        $('#lang-toggle').addEventListener('click', () => setLang(lang === 'en' ? 'zh' : 'en'));
+
+        /* ---------- 摘要展开（平滑动画） ---------- */
+        $$('.abs-btn').forEach(btn => btn.addEventListener('click', () => {
+            const box = btn.closest('.pub-info').querySelector('.abstract-content');
+            const open = box.classList.toggle('open');
+            box.style.maxHeight = open ? box.scrollHeight + 'px' : '0';
+        }));
+
+        /* ---------- BibTeX：从 doi.org 实时获取并复制 ---------- */
+        $$('.bib-btn').forEach(btn => btn.addEventListener('click', async () => {
+            const pub = btn.closest('.pub');
+            const doi = pub.dataset.doi;
+            const original = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>BibTeX';
+            try {
+                if (!pub._bib) {
+                    const r = await fetch('https://doi.org/' + doi, { headers: { Accept: 'application/x-bibtex; charset=utf-8' } });
+                    if (!r.ok) throw new Error(r.status);
+                    pub._bib = (await r.text()).trim();
+                }
+                await navigator.clipboard.writeText(pub._bib);
+                toast(lang === 'zh' ? 'BibTeX 已复制到剪贴板' : 'BibTeX copied to clipboard');
+            } catch (e) {
+                window.open('https://doi.org/' + doi, '_blank');
+                toast(lang === 'zh' ? '获取失败，已打开论文页面' : 'Could not fetch BibTeX — opened the paper page');
+            }
+            btn.innerHTML = original;
+        }));
+
+        /* ---------- 论文筛选 ---------- */
+        const pubs = $$('.pub');
+        function updateChipCounts() {
+            $$('.chip').forEach(chip => {
+                const f = chip.dataset.filter;
+                const n = f === 'all' ? pubs.length : pubs.filter(p => p.dataset.tags.split(' ').includes(f)).length;
+                const old = chip.querySelector('.count'); if (old) old.remove();
+                chip.insertAdjacentHTML('beforeend', `<span class="count">${n}</span>`);
+            });
+        }
+        function filterPubs(f, scroll) {
+            $$('.chip').forEach(c => c.classList.toggle('active', c.dataset.filter === f));
+            pubs.forEach(p => {
+                const show = f === 'all' || p.dataset.tags.split(' ').includes(f);
+                p.classList.toggle('hidden', !show);
+                if (show) p.classList.add('visible');
+            });
+            if (scroll) document.getElementById('publications').scrollIntoView();
+        }
+        $$('.chip').forEach(c => c.addEventListener('click', () => filterPubs(c.dataset.filter)));
+        $$('.project .more[data-filter]').forEach(b => b.addEventListener('click', () => filterPubs(b.dataset.filter, true)));
+        window.filterPubs = filterPubs; // 地图弹窗里的按钮会用到
+        updateChipCounts();
+
+        /* ---------- CV 按钮：仓库里有 cv.pdf 才显示 ---------- */
+        fetch('cv.pdf', { method: 'HEAD' }).then(r => { if (r.ok) $('#cv-link').style.display = ''; }).catch(() => {});
+
+        /* ---------- 研究案例地图 ---------- */
+        let map, tiles;
+        function setMapTiles() {
+            if (!map) return;
+            const style = isDark() ? 'dark_all' : 'light_all';
+            if (tiles) map.removeLayer(tiles);
+            tiles = L.tileLayer(`https://{s}.basemaps.cartocdn.com/${style}/{z}/{x}/{y}{r}.png`, {
+                attribution: '&copy; OpenStreetMap &copy; CARTO', subdomains: 'abcd', maxZoom: 18
+            }).addTo(map);
+        }
+        // 新增案例城市时，在这里加一行；filter 对应论文的 data-tags
+        const sites = [
+            { name: 'Singapore', zh: '新加坡', ll: [1.3521, 103.8198], filter: 'singapore', dir: 'right',
+              en_txt: 'UrbanGNN trade-off analysis · NUS campus multi-agent system', zh_txt: 'UrbanGNN 权衡分析 · NUS 校园多智能体系统' },
+            { name: 'Hong Kong', zh: '香港', ll: [22.3193, 114.1694], filter: 'hongkong', dir: 'right',
+              en_txt: 'Morphological trade-offs · optimal buffer for thermal comfort · campus “cool spot” study', zh_txt: '城市形态权衡 · 热舒适最优缓冲区 · 校园“冷点”研究' },
+            { name: 'Shenzhen', zh: '深圳', ll: [22.5431, 114.0579], filter: 'shenzhen', dir: 'left',
+              en_txt: 'Morphological trade-offs (comparison with Hong Kong)', zh_txt: '城市形态权衡（与香港对比）' }
+        ];
+        if (window.L) {
+            map = L.map('map', { scrollWheelZoom: false, zoomControl: true }).setView([12.5, 108.9], 4);
+            setMapTiles();
+            const icon = L.divIcon({ className: '', html: '<div class="city-dot"></div>', iconSize: [16, 16], iconAnchor: [8, 8] });
+            const markers = sites.map(s => {
+                const m = L.marker(s.ll, { icon }).addTo(map);
+                m.bindPopup(() => {
+                    const n = pubs.filter(p => p.dataset.tags.split(' ').includes(s.filter)).length;
+                    const zh = lang === 'zh';
+                    return `<b>${zh ? s.zh : s.name}</b><br>${zh ? s.zh_txt : s.en_txt}<br>
+                        <button onclick="filterPubs('${s.filter}', true)">${zh ? '查看' : 'View'} ${n} ${zh ? '篇论文' : (n === 1 ? 'paper' : 'papers')} →</button>`;
+                });
+                // 常驻城市标签（深圳和香港很近，标签分左右放）
+                m.bindTooltip(s.name, { permanent: true, direction: s.dir, offset: s.dir === 'left' ? [-10, 0] : [10, 0], className: 'city-label' });
+                // 点击：缩放飞到该城市，再弹出卡片
+                m.on('click', () => { if (map.getZoom() < 8) map.flyTo(s.ll, 9, { duration: 1.2 }); });
+                return m;
+            });
+            const bounds = L.featureGroup(markers).getBounds().pad(0.35);
+            map.fitBounds(bounds);
+            // 右上角“复位”按钮
+            const Reset = L.Control.extend({
+                options: { position: 'topright' },
+                onAdd() {
+                    const btn = L.DomUtil.create('button', 'map-reset');
+                    btn.innerHTML = '<i class="fas fa-expand"></i>';
+                    btn.title = 'Reset view';
+                    L.DomEvent.on(btn, 'click', e => { L.DomEvent.stop(e); map.closePopup(); map.flyToBounds(bounds, { duration: 1 }); });
+                    return btn;
+                }
+            });
+            map.addControl(new Reset());
+            // 城市标签跟随语言
+            window.updateMapLabels = () => markers.forEach((m, k) => m.setTooltipContent(lang === 'zh' ? sites[k].zh : sites[k].name));
+        } else {
+            $('#map').innerHTML = '<p style="padding:1rem;text-align:center;">Map could not load.</p>';
+        }
+
+        /* ---------- 记住语言偏好 ---------- */
+        try { if (localStorage.getItem('lang') === 'zh') setLang('zh'); } catch (e) {}
     </script>
 </body>
 </html>
